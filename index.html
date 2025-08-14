@@ -6,41 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPFL Informatique 3rd Year Course Planner</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .semester-toggle-btn {
-            background: #2196f3;
-            color: white;
-            border: none;
-            border-radius: 2px;
-            padding: 2px 6px;
-            cursor: pointer;
-            font-size: 0.7rem;
-            font-weight: bold;
-            margin-right: 5px;
-        }
-
-        .semester-toggle-btn:hover {
-            background: #1976d2;
-        }
-
-        /* Enhanced selected card styling */
-        .course-card.selected {
-            border: 2px solid #4caf50 !important;
-            background: linear-gradient(135deg, #e8f5e8, #f1f8e9) !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
-        }
-
-        .course-card.selected .course-title {
-            color: #2e7d32;
-            font-weight: bold;
-        }
-
-        .course-card.selected .course-credits {
-            background: #4caf50;
-            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.4);
-        }
-    </style>
 </head>
 
 <body>
@@ -104,8 +69,8 @@
                 </div>
 
                 <div class="credits-summary">
-                    <div class="credits-line"><span>Bio/Physique:</span> <span id="ba5-bio">0cr</span></div>
-                    <div class="credits-line"><span>Projects:</span> <span id="ba5-projects">0cr</span></div>
+                    <div class="credits-line"><span>Physique/Bio:</span> <span id="ba5-bio">0cr</span></div>
+                    <div class="credits-line"><span>Projets:</span> <span id="ba5-projects">0cr</span></div>
                     <div class="credits-line"><span>Options:</span> <span id="ba5-options">0cr</span></div>
                     <div class="credits-line credits-total"><span>Total Selected:</span> <span id="ba5-total">0cr</span>
                     </div>
@@ -165,8 +130,8 @@
                 </div>
 
                 <div class="credits-summary">
-                    <div class="credits-line"><span>Bio/Physique:</span> <span id="ba6-bio">0cr</span></div>
-                    <div class="credits-line"><span>Projects:</span> <span id="ba6-projects">0cr</span></div>
+                    <div class="credits-line"><span>Physique/Bio:</span> <span id="ba6-bio">0cr</span></div>
+                    <div class="credits-line"><span>Projets:</span> <span id="ba6-projects">0cr</span></div>
                     <div class="credits-line"><span>Options:</span> <span id="ba6-options">0cr</span></div>
                     <div class="credits-line credits-total"><span>Total Selected:</span> <span id="ba6-total">0cr</span>
                     </div>
@@ -180,14 +145,14 @@
         <div class="overall-summary">
             <h3 style="margin-bottom: 15px;">Overall 3rd Year Summary</h3>
             <div class="credits-line">
-                <span>Bio/Physique Group:</span>
+                <span>Physique/Bio Group:</span>
                 <span>
                     <span id="total-bio">0 credits (need 4+)</span>
                     <span class="requirement-status incomplete" id="bio-status">INCOMPLETE</span>
                 </span>
             </div>
             <div class="credits-line">
-                <span>Projects Group:</span>
+                <span>Projets Group:</span>
                 <span>
                     <span id="total-projects">0 credits (need 8+)</span>
                     <span class="requirement-status incomplete" id="projects-status">INCOMPLETE</span>
@@ -218,8 +183,10 @@
         };
 
         // Track course toggles (courseId -> currentGroup)
-        let courseToggles = {};
-        // Track semester choices for flexible courses (only research project)
+        let courseToggles = {
+            'CS-304': 'options'
+        };
+        // Track semester choices for flexible courses (only CS-304 research project)
         let courseSemesters = {
             'CS-304': 'BA5'     // Research project can be in BA5 or BA6
         };
@@ -231,12 +198,22 @@
         function generateCourseCard(course) {
             const isToggleable = course.toggleable === true;
             const currentGroup = courseToggles[course.id] || course.group;
-            let semesterDisplay = course.semesters[0]; // Show semester from course data
+            let semesterDisplay = course.semesters[0]; // Show first semester
 
             // Check if this course has flexible semester selection
             const hasFlexibleSemester = courseSemesters.hasOwnProperty(course.id);
             if (hasFlexibleSemester) {
                 semesterDisplay = courseSemesters[course.id];
+            }
+
+            // Map group names for display
+            function getGroupDisplayName(groupName) {
+                switch (groupName) {
+                    case 'physique-bio': return 'Physique/Bio';
+                    case 'projets': return 'Projets';
+                    case 'options': return 'Options';
+                    default: return groupName.charAt(0).toUpperCase() + groupName.slice(1);
+                }
             }
 
             let toggleSection = '';
@@ -245,13 +222,13 @@
 
                 // Group toggle (for toggleable courses)
                 if (isToggleable) {
+                    const currentDisplayName = getGroupDisplayName(currentGroup);
+                    const originalDisplayName = getGroupDisplayName(course.group);
                     toggleSection += `
                         <div class="toggle-row">
                             <span>Count as:</span>
                             <button class="toggle-button" onclick="toggleCourseGroup('${course.id}')" id="toggle-${course.id}">
-                                ${currentGroup === course.group ?
-                            (course.group === 'bio-physique' ? 'Bio/Physique' : course.group.charAt(0).toUpperCase() + course.group.slice(1)) :
-                            'Options'}
+                                ${currentGroup === course.group ? originalDisplayName : 'Options'}
                             </button>
                         </div>
                     `;
@@ -284,9 +261,7 @@
                     <div class="course-code">${course.code}</div>
                     <div class="course-details">
                         <div class="course-details-left">
-                            <span class="course-group-indicator ${currentGroup}">${currentGroup === 'bio-physique' ? 'Bio/Physique' :
-                    currentGroup.charAt(0).toUpperCase() + currentGroup.slice(1)
-                }</span>
+                            <span class="course-group-indicator ${currentGroup}">${getGroupDisplayName(currentGroup)}</span>
                             <span class="course-semester">${semesterDisplay}</span>
                             <span class="course-language">${course.language}</span>
                         </div>
@@ -303,33 +278,56 @@
         function generateCourseGroup(groupName, courses, requirements) {
             const groupKey = groupName.toLowerCase().replace('/', '-');
 
-            // Separate courses by their semester
-            const ba5Courses = courses.filter(c => c.semesters.includes('BA5'));
-            const ba6Courses = courses.filter(c => c.semesters.includes('BA6'));
+            // 1. Find courses available in BOTH semesters
+            const dualSemesterCourses = courses.filter(c =>
+                (c.semesters.includes('BA5') || c.semesters.includes('BA3')) &&
+                (c.semesters.includes('BA6') || c.semesters.includes('BA4'))
+            );
+
+            // 2. Find courses available ONLY in BA5 (Autumn)
+            const ba5OnlyCourses = courses.filter(c =>
+                (c.semesters.includes('BA5') || c.semesters.includes('BA3')) &&
+                !(c.semesters.includes('BA6') || c.semesters.includes('BA4'))
+            );
+
+            // 3. Find courses available ONLY in BA6 (Spring)
+            const ba6OnlyCourses = courses.filter(c =>
+                (c.semesters.includes('BA6') || c.semesters.includes('BA4')) &&
+                !(c.semesters.includes('BA5') || c.semesters.includes('BA3'))
+            );
 
             let courseCards = '';
 
-            // BA5 courses
-            if (ba5Courses.length > 0) {
-                ba5Courses.sort((a, b) => a.title.localeCompare(b.title));
-                ba5Courses.forEach(course => {
+            // --- Render the partitioned groups in the desired order ---
+
+            // Render DUAL-SEMESTER courses first
+            if (dualSemesterCourses.length > 0) {
+                courseCards += `<div class="semester-separator">Available in BA5 & BA6</div>`;
+                dualSemesterCourses.sort((a, b) => a.title.localeCompare(b.title));
+                dualSemesterCourses.forEach(course => {
                     courseCards += generateCourseCard(course);
                 });
             }
 
-            // Separator line if needed
-            if (ba5Courses.length > 0 && ba6Courses.length > 0) {
-                courseCards += '<div class="semester-separator"></div>';
-            }
-
-            // BA6 courses
-            if (ba6Courses.length > 0) {
-                ba6Courses.sort((a, b) => a.title.localeCompare(b.title));
-                ba6Courses.forEach(course => {
+            // Render BA5-ONLY courses next
+            if (ba5OnlyCourses.length > 0) {
+                courseCards += `<div class="semester-separator">BA5 (Autumn) Only</div>`;
+                ba5OnlyCourses.sort((a, b) => a.title.localeCompare(b.title));
+                ba5OnlyCourses.forEach(course => {
                     courseCards += generateCourseCard(course);
                 });
             }
 
+            // Render BA6-ONLY courses last
+            if (ba6OnlyCourses.length > 0) {
+                courseCards += `<div class="semester-separator">BA6 (Spring) Only</div>`;
+                ba6OnlyCourses.sort((a, b) => a.title.localeCompare(b.title));
+                ba6OnlyCourses.forEach(course => {
+                    courseCards += generateCourseCard(course);
+                });
+            }
+
+            // The rest of the function remains the same, returning the final HTML
             return `
                 <div class="course-group ${groupKey}">
                     <div class="group-header" onclick="toggleGroup('${groupKey}')">
@@ -350,8 +348,8 @@
             const container = document.getElementById('courses-container');
             let html = '';
 
-            html += generateCourseGroup('Bio/Physique', courseData['bio-physique'], '4+ credits required');
-            html += generateCourseGroup('Projects', courseData['projects'], '8+ credits required');
+            html += generateCourseGroup('Physique/Bio', courseData['physique-bio'], '4+ credits required');
+            html += generateCourseGroup('Projets', courseData['projets'], '8+ credits required');
             html += generateCourseGroup('Options', courseData['options'], '28+ credits required');
 
             container.innerHTML = html;
@@ -387,15 +385,24 @@
             // Update group indicator
             const groupIndicator = courseCard.querySelector('.course-group-indicator');
             groupIndicator.className = `course-group-indicator ${newGroup}`;
-            groupIndicator.textContent = newGroup === 'bio-physique' ? 'Bio/Physique' :
-                newGroup.charAt(0).toUpperCase() + newGroup.slice(1);
+
+            // Map group names for display
+            function getGroupDisplayName(groupName) {
+                switch (groupName) {
+                    case 'physique-bio': return 'Physique/Bio';
+                    case 'projets': return 'Projets';
+                    case 'options': return 'Options';
+                    default: return groupName.charAt(0).toUpperCase() + groupName.slice(1);
+                }
+            }
+
+            groupIndicator.textContent = getGroupDisplayName(newGroup);
 
             // Update toggle button
             const toggleBtn = document.getElementById(`toggle-${courseId}`);
             if (toggleBtn) {
                 toggleBtn.textContent = newGroup === originalGroup ?
-                    (originalGroup === 'bio-physique' ? 'Bio/Physique' : originalGroup.charAt(0).toUpperCase() + originalGroup.slice(1)) :
-                    'Options';
+                    getGroupDisplayName(originalGroup) : 'Options';
             }
 
             // If course is already selected, update its group and re-render
@@ -487,9 +494,18 @@
                 if (courseSemesters.hasOwnProperty(courseId)) {
                     targetSemester = courseSemesters[courseId];
                 } else {
-                    // Use direct semester from course data
+                    // Use direct semester mapping
                     const semesters = courseCard.dataset.semesters.split(',');
-                    targetSemester = semesters[0]; // Take first available semester
+
+                    // Filter to only BA5/BA6 semesters, or map BA3→BA5, BA4→BA6
+                    const availableSemesters = semesters.map(sem => {
+                        if (sem === 'BA3') return 'BA5';
+                        if (sem === 'BA4') return 'BA6';
+                        return sem;
+                    }).filter(sem => sem === 'BA5' || sem === 'BA6');
+
+                    // For courses available in multiple semesters, use default first available
+                    targetSemester = availableSemesters[0];
                 }
 
                 addCourseToSemester(courseCard, targetSemester);
@@ -542,17 +558,20 @@
                 // Clear all category sections
                 ['options', 'projects', 'bio'].forEach(category => {
                     const container = document.getElementById(`${semester.toLowerCase()}-${category}-list`);
-                    container.innerHTML = '';
+                    if (container) {
+                        container.innerHTML = '';
+                    }
                 });
 
                 // Group courses by category
                 const coursesByCategory = {
                     options: [],
-                    projects: [],
-                    'bio-physique': []
+                    projets: [],
+                    'physique-bio': []
                 };
 
                 selectedCourses[semester].forEach(course => {
+                    // This check will now work for courses with group: 'projets'
                     if (coursesByCategory[course.group]) {
                         coursesByCategory[course.group].push(course);
                     }
@@ -566,28 +585,35 @@
                     // Sort alphabetically
                     courses.sort((a, b) => a.title.localeCompare(b.title));
 
-                    const containerKey = category === 'bio-physique' ? 'bio' : category;
+                    // This logic correctly maps 'projets' to the 'projects' container
+                    let containerKey = category;
+                    if (category === 'physique-bio') {
+                        containerKey = 'bio';
+                    } else if (category === 'projets') {
+                        containerKey = 'projects';
+                    }
+
                     const container = document.getElementById(`${semester.toLowerCase()}-${containerKey}-list`);
+                    if (!container) return; // Safety check
 
                     courses.forEach(course => {
                         const courseDiv = document.createElement('div');
                         courseDiv.className = 'selected-course';
 
-                        // Check if this course can be moved between semesters
                         const canMoveSemesters = courseSemesters.hasOwnProperty(course.id);
                         const semesterToggle = canMoveSemesters ?
                             `<button class="semester-toggle-btn" onclick="moveSelectedCourseToOtherSemester('${course.id}', '${semester}')" title="Move to other semester">↔</button>` : '';
 
                         courseDiv.innerHTML = `
-                            <div>
-                                <strong>${course.title}</strong><br>
-                                <small>${course.code} • ${course.credits}cr</small>
-                            </div>
-                            <div style="display: flex; align-items: center; gap: 5px;">
-                                ${semesterToggle}
-                                <button class="remove-btn" data-course-id="${course.id}" data-semester="${semester}">✕</button>
-                            </div>
-                        `;
+                    <div>
+                        <strong>${course.title}</strong><br>
+                        <small>${course.code} • ${course.credits}cr</small>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 5px;">
+                        ${semesterToggle}
+                        <button class="remove-btn" data-course-id="${course.id}" data-semester="${semester}">✕</button>
+                    </div>
+                `;
                         container.appendChild(courseDiv);
                     });
                 });
@@ -627,8 +653,8 @@
             ['BA5', 'BA6'].forEach(semester => {
                 const courses = selectedCourses[semester];
 
-                const bio = courses.filter(c => c.group === 'bio-physique').reduce((sum, c) => sum + c.credits, 0);
-                const projects = courses.filter(c => c.group === 'projects').reduce((sum, c) => sum + c.credits, 0);
+                const bio = courses.filter(c => c.group === 'physique-bio').reduce((sum, c) => sum + c.credits, 0);
+                const projects = courses.filter(c => c.group === 'projets').reduce((sum, c) => sum + c.credits, 0);
                 const options = courses.filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
                 const total = bio + projects + options;
 
@@ -646,9 +672,9 @@
 
             // Update overall summary
             const totalBio = selectedCourses.BA5.concat(selectedCourses.BA6)
-                .filter(c => c.group === 'bio-physique').reduce((sum, c) => sum + c.credits, 0);
+                .filter(c => c.group === 'physique-bio').reduce((sum, c) => sum + c.credits, 0);
             const totalProjects = selectedCourses.BA5.concat(selectedCourses.BA6)
-                .filter(c => c.group === 'projects').reduce((sum, c) => sum + c.credits, 0);
+                .filter(c => c.group === 'projets').reduce((sum, c) => sum + c.credits, 0);
             const totalOptions = selectedCourses.BA5.concat(selectedCourses.BA6)
                 .filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
 
@@ -666,11 +692,11 @@
             document.getElementById('top-total-credits').textContent = `${grandTotal} / 62cr`;
 
             // Update group credit counters in headers
-            if (document.getElementById('bio-physique-credits')) {
-                document.getElementById('bio-physique-credits').textContent = `${totalBio} cr`;
+            if (document.getElementById('physique-bio-credits')) {
+                document.getElementById('physique-bio-credits').textContent = `${totalBio} cr`;
             }
-            if (document.getElementById('projects-credits')) {
-                document.getElementById('projects-credits').textContent = `${totalProjects} cr`;
+            if (document.getElementById('projets-credits')) {
+                document.getElementById('projets-credits').textContent = `${totalProjects} cr`;
             }
             if (document.getElementById('options-credits')) {
                 document.getElementById('options-credits').textContent = `${totalOptions} cr`;

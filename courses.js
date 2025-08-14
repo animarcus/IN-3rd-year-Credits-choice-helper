@@ -1,7 +1,6 @@
 // Course data extracted from EPFL study plan 2025-2026
 const courseData = {
-    'mandatory': [
-        // Bloc C only (3rd year fixed courses)
+    'bloc-c': [
         {
             id: 'COM-301',
             title: 'Computer security and privacy',
@@ -9,7 +8,7 @@ const courseData = {
             credits: 6,
             language: 'EN',
             semesters: ['BA5'],
-            group: 'mandatory',
+            group: 'bloc-c',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/computer-security-and-privacy-COM-301'
         },
         {
@@ -19,7 +18,7 @@ const courseData = {
             credits: 6,
             language: 'EN',
             semesters: ['BA6'],
-            group: 'mandatory',
+            group: 'bloc-c',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/data-intensive-systems-CS-300'
         },
         {
@@ -29,7 +28,7 @@ const courseData = {
             credits: 6,
             language: 'EN',
             semesters: ['BA6'],
-            group: 'mandatory',
+            group: 'bloc-c',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/theory-of-computation-CS-251'
         }
     ],
@@ -41,7 +40,8 @@ const courseData = {
             credits: 2,
             language: 'FR',
             semesters: ['BA5'],
-            group: 'shs'
+            group: 'shs',
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/programme-sciences-humaines-et-sociales'
         },
         {
             id: 'SHS-BA6',
@@ -50,7 +50,8 @@ const courseData = {
             credits: 2,
             language: 'FR',
             semesters: ['BA6'],
-            group: 'shs'
+            group: 'shs',
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/programme-sciences-humaines-et-sociales'
         }
     ],
     'options': [
@@ -60,7 +61,7 @@ const courseData = {
             code: 'MATH-310',
             credits: 4,
             language: 'EN',
-            semesters: ['BA5'],
+            semesters: ['BA3'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/algebra-MATH-310'
         },
@@ -70,7 +71,7 @@ const courseData = {
             code: 'MATH-207(d)',
             credits: 4,
             language: 'EN',
-            semesters: ['BA6'],
+            semesters: ['BA4'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/analysis-iv-MATH-207-D'
         },
@@ -80,7 +81,7 @@ const courseData = {
             code: 'CS-341',
             credits: 6,
             language: 'EN',
-            semesters: ['BA6'],
+            semesters: ['BA4'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/computer-graphics-CS-341'
         },
@@ -130,7 +131,7 @@ const courseData = {
             code: 'EE-202(b)',
             credits: 4,
             language: 'FR',
-            semesters: ['BA5'],
+            semesters: ['BA3'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/electronique-i-EE-202-B'
         },
@@ -170,7 +171,7 @@ const courseData = {
             code: 'CS-233',
             credits: 6,
             language: 'EN',
-            semesters: ['BA6'],
+            semesters: ['BA4'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/introduction-to-machine-learning-CS-233'
         },
@@ -210,7 +211,7 @@ const courseData = {
             code: 'CS-328',
             credits: 4,
             language: 'EN',
-            semesters: ['BA5'],
+            semesters: ['BA3'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/numerical-methods-for-visual-computing-and-ml-CS-328'
         },
@@ -240,129 +241,9 @@ const courseData = {
             code: 'CS-303',
             credits: 6,
             language: 'EN',
-            semesters: ['BA6'],
+            semesters: ['BA5'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/principles-of-online-decision-making-CS-303'
-        },
-        {
-            id: 'CS-290',
-            title: 'Responsible software',
-            code: 'CS-290',
-            credits: 5,
-            language: 'EN',
-            semesters: ['BA5'],
-            group: 'options',
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/responsible-software-CS-290'
-        },
-        {
-            id: 'COM-202',
-            title: 'Signal processing',
-            code: 'COM-202',
-            credits: 8,
-            language: 'EN',
-            semesters: ['BA6'],
-            group: 'options',
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/signal-processing-COM-202'
-        },
-        {
-            id: 'CS-234',
-            title: 'Technologies for democratic society',
-            code: 'CS-234',
-            credits: 5,
-            language: 'EN',
-            semesters: ['BA5'],
-            group: 'options',
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/technologies-for-democratic-society-CS-234'
-        }
-    ],
-    'bio-physique': [
-        {
-            id: 'BIO-109',
-            title: 'Introduction aux sciences du vivant (pour IC)',
-            code: 'BIO-109',
-            credits: 6,
-            language: 'FR',
-            semesters: ['BA6'],
-            group: 'bio-physique',
-            toggleable: true,
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/introduction-aux-sciences-du-vivant-pour-ic-BIO-109'
-        },
-        {
-            id: 'BIOENG-310',
-            title: 'Neuroscience foundations for engineers',
-            code: 'BIOENG-310',
-            credits: 6,
-            language: 'EN',
-            semesters: ['BA6'],
-            group: 'bio-physique',
-            toggleable: true,
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/neuroscience-foundations-for-engineers-BIOENG-310'
-        },
-        {
-            id: 'PHYS-114',
-            title: 'Physique générale : électromagnétisme',
-            code: 'PHYS-114',
-            credits: 4,
-            language: 'FR',
-            semesters: ['BA5'],
-            group: 'bio-physique',
-            toggleable: true,
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/physique-generale-electromagnetisme-PHYS-114'
-        },
-        {
-            id: 'PHYS-202',
-            title: 'Mécanique analytique (pour SPH)',
-            code: 'PHYS-202',
-            credits: 5,
-            language: 'FR',
-            semesters: ['BA5'],
-            group: 'bio-physique',
-            toggleable: true,
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/mecanique-analytique-pour-sph-PHYS-202'
-        },
-        {
-            id: 'PHYS-344',
-            title: 'Quantum mechanics for non-physicists',
-            code: 'PHYS-344',
-            credits: 5,
-            language: 'EN',
-            semesters: ['BA5'],
-            group: 'bio-physique',
-            toggleable: true,
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/quantum-mechanics-for-non-physicists-PHYS-344'
-        }
-    ],
-    'projects': [
-        {
-            id: 'CS-358(a)',
-            title: 'Making intelligent things A',
-            code: 'CS-358(a)',
-            credits: 8,
-            language: 'EN',
-            semesters: ['BA5'],
-            group: 'projects',
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/making-intelligent-things-a-CS-358-A'
-        },
-        {
-            id: 'CS-358(b)',
-            title: 'Making intelligent things B',
-            code: 'CS-358(b)',
-            credits: 8,
-            language: 'EN',
-            semesters: ['BA6'],
-            group: 'projects',
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/making-intelligent-things-b-CS-358-B'
-        },
-        {
-            id: 'CS-311',
-            title: 'The software enterprise - from ideas to products',
-            code: 'CS-311',
-            credits: 8,
-            language: 'EN',
-            semesters: ['BA5'],
-            group: 'projects',
-            toggleable: true,
-            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/the-software-enterprise-from-ideas-to-products-CS-311'
         },
         {
             id: 'CS-304',
@@ -373,8 +254,129 @@ const courseData = {
             semesters: ['BA5', 'BA6'],
             group: 'projects',
             toggleable: true,
-            special: 'research',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/projet-de-recherche-optionnel-en-informatique-i-CS-304'
+        },
+        {
+            id: 'CS-290',
+            title: 'Responsible software',
+            code: 'CS-290',
+            credits: 5,
+            language: 'EN',
+            semesters: ['BA3', 'BA5'],
+            group: 'options',
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/responsible-software-CS-290'
+        },
+        {
+            id: 'COM-202',
+            title: 'Signal processing',
+            code: 'COM-202',
+            credits: 8,
+            language: 'EN',
+            semesters: ['BA4'],
+            group: 'options',
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/signal-processing-COM-202'
+        },
+        {
+            id: 'CS-234',
+            title: 'Technologies for democratic society',
+            code: 'CS-234',
+            credits: 5,
+            language: 'EN',
+            semesters: ['BA3'],
+            group: 'options',
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/technologies-for-democratic-society-CS-234'
+        }
+    ],
+    'physique-bio': [
+        {
+            id: 'BIO-109',
+            title: 'Introduction aux sciences du vivant (pour IC)',
+            code: 'BIO-109',
+            credits: 6,
+            language: 'FR',
+            semesters: ['BA4'],
+            group: 'physique-bio',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/introduction-aux-sciences-du-vivant-pour-ic-BIO-109'
+        },
+        {
+            id: 'PHYS-202',
+            title: 'Mécanique analytique (pour SPH)',
+            code: 'PHYS-202',
+            credits: 5,
+            language: 'FR',
+            semesters: ['BA3'],
+            group: 'physique-bio',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/mecanique-analytique-pour-sph-PHYS-202'
+        },
+        {
+            id: 'BIOENG-310',
+            title: 'Neuroscience foundations for engineers',
+            code: 'BIOENG-310',
+            credits: 6,
+            language: 'EN',
+            semesters: ['BA6'],
+            group: 'physique-bio',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/neuroscience-foundations-for-engineers-BIOENG-310'
+        },
+        {
+            id: 'PHYS-114',
+            title: 'Physique générale : électromagnétisme',
+            code: 'PHYS-114',
+            credits: 4,
+            language: 'FR',
+            semesters: ['BA3'],
+            group: 'physique-bio',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/physique-generale-electromagnetisme-PHYS-114'
+        },
+        {
+            id: 'PHYS-344',
+            title: 'Quantum mechanics for non-physicists',
+            code: 'PHYS-344',
+            credits: 5,
+            language: 'EN',
+            semesters: ['BA5'],
+            group: 'physique-bio',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/quantum-mechanics-for-non-physicists-PHYS-344'
+        }
+    ],
+    'projets': [
+        {
+            id: 'CS-358(a)',
+            title: 'Making intelligent things A',
+            code: 'CS-358(a)',
+            credits: 8,
+            language: 'EN',
+            semesters: ['BA5'],
+            group: 'projets',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/making-intelligent-things-a-CS-358-A'
+        },
+        {
+            id: 'CS-358(b)',
+            title: 'Making intelligent things B',
+            code: 'CS-358(b)',
+            credits: 8,
+            language: 'EN',
+            semesters: ['BA6'],
+            group: 'projets',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/making-intelligent-things-b-CS-358-B'
+        },
+        {
+            id: 'CS-311',
+            title: 'The software enterprise - from ideas to products',
+            code: 'CS-311',
+            credits: 8,
+            language: 'EN',
+            semesters: ['BA5'],
+            group: 'projets',
+            toggleable: true,
+            link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/the-software-enterprise-from-ideas-to-products-CS-311'
         }
     ]
 };
