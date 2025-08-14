@@ -12,16 +12,6 @@ const courseData = {
             link: 'introduction-aux-sciences-du-vivant-pour-ic-BIO-109'
         },
         {
-            id: 'PHYS-202',
-            title: 'Mécanique analytique',
-            code: 'PHYS-202',
-            credits: 5,
-            language: 'FR',
-            semesters: ['BA5'],
-            group: 'bio-physique',
-            link: 'mecanique-analytique-PHYS-202'
-        },
-        {
             id: 'BIOENG-310',
             title: 'Neuroscience foundations for engineers',
             code: 'BIOENG-310',
@@ -40,6 +30,16 @@ const courseData = {
             semesters: ['BA5'],
             group: 'bio-physique',
             link: 'physique-generale-electromagnetisme-PHYS-114'
+        },
+        {
+            id: 'PHYS-202',
+            title: 'Mécanique analytique (pour SPH)',
+            code: 'PHYS-202',
+            credits: 5,
+            language: 'FR',
+            semesters: ['BA5'],
+            group: 'bio-physique',
+            link: 'mecanique-analytique-pour-sph-PHYS-202'
         },
         {
             id: 'PHYS-344',
@@ -84,14 +84,14 @@ const courseData = {
             link: 'the-software-enterprise-from-ideas-to-products-CS-311'
         },
         {
-            id: 'CS-334',
-            title: 'Projet de recherche optionnel en informatique I',
-            code: 'CS-334',
+            id: 'CS-304',
+            title: 'Projet de recherche optionnel en Informatique I',
+            code: 'CS-304',
             credits: 6,
             language: 'FR',
             semesters: ['BA5', 'BA6'],
             group: 'projects',
-            link: 'projet-de-recherche-optionnel-en-informatique-i-CS-334',
+            link: 'projet-de-recherche-optionnel-en-informatique-i-CS-304',
             special: 'research'
         }
     ],
@@ -187,14 +187,14 @@ const courseData = {
             link: 'electronique-ii-pour-ic-EE-203-B'
         },
         {
-            id: 'COM-334',
-            title: 'Intelligent Systems: Communications & AI',
-            code: 'COM-334',
+            id: 'COM-304',
+            title: 'Intelligent systems: communications & AI',
+            code: 'COM-304',
             credits: 8,
             language: 'EN',
             semesters: ['BA6'],
             group: 'options',
-            link: 'intelligent-systems-communications-ai-COM-334'
+            link: 'intelligent-systems-communications-ai-COM-304'
         },
         {
             id: 'COM-308',
@@ -282,7 +282,7 @@ const courseData = {
             code: 'CS-303',
             credits: 6,
             language: 'EN',
-            semesters: ['BA6'],
+            semesters: ['BA5'],
             group: 'options',
             link: 'principles-of-online-decision-making-CS-303'
         },
