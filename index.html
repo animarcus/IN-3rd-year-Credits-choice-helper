@@ -6,6 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EPFL Informatique 3rd Year Course Planner</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .semester-toggle-btn {
+            background: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 2px;
+            padding: 2px 6px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .semester-toggle-btn:hover {
+            background: #1976d2;
+        }
+
+        /* Enhanced selected card styling */
+        .course-card.selected {
+            border: 2px solid #4caf50 !important;
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+        }
+
+        .course-card.selected .course-title {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+
+        .course-card.selected .course-credits {
+            background: #4caf50;
+            box-shadow: 0 2px 4px rgba(76, 175, 80, 0.4);
+        }
+    </style>
 </head>
 
 <body>
@@ -184,39 +219,57 @@
 
         // Track course toggles (courseId -> currentGroup)
         let courseToggles = {};
+        // Track semester choices for flexible courses (only research project)
+        let courseSemesters = {
+            'CS-304': 'BA5'     // Research project can be in BA5 or BA6
+        };
 
         function openCourseLink(url) {
             window.open(url, '_blank');
         }
 
-        // Map BA3→BA5, BA4→BA6 for semester availability
-        function mapSemesterAvailability(originalSemester) {
-            if (originalSemester === 'BA3') return 'BA5';
-            if (originalSemester === 'BA4') return 'BA6';
-            return originalSemester; // BA5, BA6 stay the same
-        }
-
         function generateCourseCard(course) {
             const isToggleable = course.toggleable === true;
             const currentGroup = courseToggles[course.id] || course.group;
-            let semesterDisplay = course.semesters[0]; // Show original semester (BA3/BA4)
+            let semesterDisplay = course.semesters[0]; // Show semester from course data
+
+            // Check if this course has flexible semester selection
+            const hasFlexibleSemester = courseSemesters.hasOwnProperty(course.id);
+            if (hasFlexibleSemester) {
+                semesterDisplay = courseSemesters[course.id];
+            }
 
             let toggleSection = '';
-            if (isToggleable) {
-                const alternativeGroup = course.group === 'projects' ? 'options' :
-                    course.group === 'bio-physique' ? 'options' : course.group;
-                toggleSection = `
-                    <div class="toggle-section">
+            if (isToggleable || hasFlexibleSemester) {
+                toggleSection = '<div class="toggle-section">';
+
+                // Group toggle (for toggleable courses)
+                if (isToggleable) {
+                    toggleSection += `
                         <div class="toggle-row">
                             <span>Count as:</span>
                             <button class="toggle-button" onclick="toggleCourseGroup('${course.id}')" id="toggle-${course.id}">
                                 ${currentGroup === course.group ?
-                        (course.group === 'bio-physique' ? 'Bio/Physique' : course.group.charAt(0).toUpperCase() + course.group.slice(1)) :
-                        'Options'}
+                            (course.group === 'bio-physique' ? 'Bio/Physique' : course.group.charAt(0).toUpperCase() + course.group.slice(1)) :
+                            'Options'}
                             </button>
                         </div>
-                    </div>
-                `;
+                    `;
+                }
+
+                // Semester toggle (for flexible semester courses)
+                if (hasFlexibleSemester) {
+                    toggleSection += `
+                        <div class="toggle-row">
+                            <span>Semester:</span>
+                            <button class="toggle-button" onclick="toggleCourseSemester('${course.id}')" id="semester-${course.id}">
+                                ${courseSemesters[course.id]}
+                            </button>
+                        </div>
+                    `;
+                }
+
+                toggleSection += '</div>';
             }
 
             return `
@@ -250,17 +303,13 @@
         function generateCourseGroup(groupName, courses, requirements) {
             const groupKey = groupName.toLowerCase().replace('/', '-');
 
-            // Separate courses by their availability semester (mapped from BA3/BA4 to BA5/BA6)
-            const ba5Courses = courses.filter(c =>
-                c.semesters.some(sem => mapSemesterAvailability(sem) === 'BA5')
-            );
-            const ba6Courses = courses.filter(c =>
-                c.semesters.some(sem => mapSemesterAvailability(sem) === 'BA6')
-            );
+            // Separate courses by their semester
+            const ba5Courses = courses.filter(c => c.semesters.includes('BA5'));
+            const ba6Courses = courses.filter(c => c.semesters.includes('BA6'));
 
             let courseCards = '';
 
-            // BA5 available courses
+            // BA5 courses
             if (ba5Courses.length > 0) {
                 ba5Courses.sort((a, b) => a.title.localeCompare(b.title));
                 ba5Courses.forEach(course => {
@@ -273,7 +322,7 @@
                 courseCards += '<div class="semester-separator"></div>';
             }
 
-            // BA6 available courses
+            // BA6 courses
             if (ba6Courses.length > 0) {
                 ba6Courses.sort((a, b) => a.title.localeCompare(b.title));
                 ba6Courses.forEach(course => {
@@ -357,6 +406,49 @@
             updateCredits();
         }
 
+        function toggleCourseSemester(courseId) {
+            // Toggle semester for flexible courses
+            const currentSemester = courseSemesters[courseId];
+            const newSemester = currentSemester === 'BA5' ? 'BA6' : 'BA5';
+            courseSemesters[courseId] = newSemester;
+
+            // Update semester display in course card
+            const courseCard = document.querySelector(`[data-course="${courseId}"]`);
+            if (courseCard) {
+                const semesterElement = courseCard.querySelector('.course-semester');
+                if (semesterElement) {
+                    semesterElement.textContent = newSemester;
+                }
+            }
+
+            // Update toggle button
+            const semesterBtn = document.getElementById(`semester-${courseId}`);
+            if (semesterBtn) {
+                semesterBtn.textContent = newSemester;
+            }
+
+            // If course is already selected, move it to the new semester
+            if (isCourseSelected(courseId)) {
+                moveCourseBetweenSemesters(courseId, newSemester);
+                renderSelectedCourses();
+            }
+            updateCredits();
+        }
+
+        function moveCourseBetweenSemesters(courseId, targetSemester) {
+            let courseData = null;
+            ['BA5', 'BA6'].forEach(semester => {
+                const courseIndex = selectedCourses[semester].findIndex(c => c.id === courseId);
+                if (courseIndex !== -1) {
+                    courseData = selectedCourses[semester].splice(courseIndex, 1)[0];
+                }
+            });
+
+            if (courseData) {
+                selectedCourses[targetSemester].push(courseData);
+            }
+        }
+
         function updateSelectedCourseGroup(courseId, newGroup) {
             ['BA5', 'BA6'].forEach(semester => {
                 const courseIndex = selectedCourses[semester].findIndex(c => c.id === courseId);
@@ -375,6 +467,7 @@
             } else if (e.target.classList.contains('remove-btn')) {
                 removeCourse(e.target.dataset.courseId, e.target.dataset.semester);
             }
+            // Note: semester-toggle-btn clicks are handled by their onclick attribute
         });
 
         function toggleCourse(courseCard) {
@@ -387,25 +480,16 @@
                 });
                 courseCard.classList.remove('selected');
             } else {
-                // Determine target semester based on course availability
-                const semesters = courseCard.dataset.semesters.split(',');
+                // Determine target semester
                 let targetSemester;
 
-                // Map original semesters to availability
-                const availableSemesters = semesters.map(sem => mapSemesterAvailability(sem));
-
-                if (availableSemesters.length === 1) {
-                    targetSemester = availableSemesters[0];
+                // Check if this is a flexible semester course
+                if (courseSemesters.hasOwnProperty(courseId)) {
+                    targetSemester = courseSemesters[courseId];
                 } else {
-                    // Multiple semesters - ask user
-                    const choice = prompt(`Choose semester for "${courseCard.querySelector('.course-title').textContent}":\n1. BA5 (Autumn)\n2. BA6 (Spring)\n\nEnter 1 or 2:`);
-                    if (choice === '1') {
-                        targetSemester = 'BA5';
-                    } else if (choice === '2') {
-                        targetSemester = 'BA6';
-                    } else {
-                        return; // Cancel
-                    }
+                    // Use direct semester from course data
+                    const semesters = courseCard.dataset.semesters.split(',');
+                    targetSemester = semesters[0]; // Take first available semester
                 }
 
                 addCourseToSemester(courseCard, targetSemester);
@@ -488,17 +572,55 @@
                     courses.forEach(course => {
                         const courseDiv = document.createElement('div');
                         courseDiv.className = 'selected-course';
+
+                        // Check if this course can be moved between semesters
+                        const canMoveSemesters = courseSemesters.hasOwnProperty(course.id);
+                        const semesterToggle = canMoveSemesters ?
+                            `<button class="semester-toggle-btn" onclick="moveSelectedCourseToOtherSemester('${course.id}', '${semester}')" title="Move to other semester">↔</button>` : '';
+
                         courseDiv.innerHTML = `
                             <div>
                                 <strong>${course.title}</strong><br>
                                 <small>${course.code} • ${course.credits}cr</small>
                             </div>
-                            <button class="remove-btn" data-course-id="${course.id}" data-semester="${semester}">✕</button>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                ${semesterToggle}
+                                <button class="remove-btn" data-course-id="${course.id}" data-semester="${semester}">✕</button>
+                            </div>
                         `;
                         container.appendChild(courseDiv);
                     });
                 });
             });
+        }
+
+        function moveSelectedCourseToOtherSemester(courseId, currentSemester) {
+            const targetSemester = currentSemester === 'BA5' ? 'BA6' : 'BA5';
+
+            // Update the courseSemesters tracking
+            if (courseSemesters.hasOwnProperty(courseId)) {
+                courseSemesters[courseId] = targetSemester;
+
+                // Update the course card semester display
+                const courseCard = document.querySelector(`[data-course="${courseId}"]`);
+                if (courseCard) {
+                    const semesterElement = courseCard.querySelector('.course-semester');
+                    if (semesterElement) {
+                        semesterElement.textContent = targetSemester;
+                    }
+
+                    // Update semester toggle button in course card
+                    const semesterBtn = document.getElementById(`semester-${courseId}`);
+                    if (semesterBtn) {
+                        semesterBtn.textContent = targetSemester;
+                    }
+                }
+            }
+
+            // Move the course between semesters
+            moveCourseBetweenSemesters(courseId, targetSemester);
+            renderSelectedCourses();
+            updateCredits();
         }
 
         function updateCredits() {
