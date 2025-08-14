@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPFL Informatique 3rd Year Course Planner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>EPFL Informatique 3rd Year Course Planner</h1>
+        
+        <!-- Top Summary Dashboard -->
+        <div class="top-summary">
+            <div class="summary-card">
+                <div class="summary-title">BA5 (Autumn 2025)</div>
+                <div class="summary-credits" id="top-ba5-credits">8cr</div>
+                <small>Including fixed courses</small>
+            </div>
+            <div class="summary-card">
+                <div class="summary-title">BA6 (Spring 2026)</div>
+                <div class="summary-credits" id="top-ba6-credits">14cr</div>
+                <small>Including fixed courses</small>
+            </div>
+            <div class="summary-card">
+                <div class="summary-title">Total 3rd Year</div>
+                <div class="summary-credits" id="top-total-credits">22 / 62cr</div>
+                <small>Need 62 credits total</small>
+            </div>
+        </div>
+        
+        <div class="planner">
+            <!-- BA5 (Autumn) Column -->
+            <div class="semester-column">
+                <h2 class="semester-title">BA5 (Autumn 2025)</h2>
+                
+                <div class="fixed-section">
+                    <h3>Bloc C (Fixed)</h3>
+                    <div class="fixed-course">
+                        <div class="fixed-course-info">
+                            Computer security and privacy<br>
+                            <small>COM-301 • 6cr • EN</small>
+                        </div>
+                        <button class="fixed-course-btn" onclick="openCourseLink('computer-security-and-privacy', 'COM-301')">Link</button>
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-title">Options</div>
+                    <div id="ba5-options-list"></div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-title">Projects</div>
+                    <div id="ba5-projects-list"></div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-title">Bio/Physique</div>
+                    <div id="ba5-bio-list"></div>
+                </div>
+
+                <div class="fixed-section">
+                    <h3>SHS (Fixed)</h3>
+                    <div>2 credits</div>
+                </div>
+
+                <div class="credits-summary">
+                    <div class="credits-line"><span>Bio/Physique:</span> <span id="ba5-bio">0cr</span></div>
+                    <div class="credits-line"><span>Projects:</span> <span id="ba5-projects">0cr</span></div>
+                    <div class="credits-line"><span>Options:</span> <span id="ba5-options">0cr</span></div>
+                    <div class="credits-line credits-total"><span>Total Selected:</span> <span id="ba5-total">0cr</span></div>
+                    <div class="credits-line credits-final"><span>Semester Total:</span> <span id="ba5-final">8cr</span></div>
+                </div>
+            </div>
+
+            <!-- Available Courses Column -->
+            <div class="courses-column">
+                <h2 style="text-align: center; margin-bottom: 20px;">Available Courses</h2>
+                <div id="courses-container"></div>
+            </div>
+
+            <!-- BA6 (Spring) Column -->
+            <div class="semester-column">
+                <h2 class="semester-title">BA6 (Spring 2026)</h2>
+                
+                <div class="fixed-section">
+                    <h3>Bloc C (Fixed)</h3>
+                    <div class="fixed-course">
+                        <div class="fixed-course-info">
+                            Data-intensive systems<br>
+                            <small>CS-300 • 6cr • EN</small>
+                        </div>
+                        <button class="fixed-course-btn" onclick="openCourseLink('data-intensive-systems', 'CS-300')">Link</button>
+                    </div>
+                    <div class="fixed-course" style="margin-top: 8px;">
+                        <div class="fixed-course-info">
+                            Theory of computation<br>
+                            <small>CS-251 • 6cr • EN</small>
+                        </div>
+                        <button class="fixed-course-btn" onclick="openCourseLink('theory-of-computation', 'CS-251')">Link</button>
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-title">Options</div>
+                    <div id="ba6-options-list"></div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-title">Projects</div>
+                    <div id="ba6-projects-list"></div>
+                </div>
+
+                <div class="category-section">
+                    <div class="category-title">Bio/Physique</div>
+                    <div id="ba6-bio-list"></div>
+                </div>
+
+                <div class="fixed-section">
+                    <h3>SHS (Fixed)</h3>
+                    <div>2 credits</div>
+                </div>
+
+                <div class="credits-summary">
+                    <div class="credits-line"><span>Bio/Physique:</span> <span id="ba6-bio">0cr</span></div>
+                    <div class="credits-line"><span>Projects:</span> <span id="ba6-projects">0cr</span></div>
+                    <div class="credits-line"><span>Options:</span> <span id="ba6-options">0cr</span></div>
+                    <div class="credits-line credits-total"><span>Total Selected:</span> <span id="ba6-total">0cr</span></div>
+                    <div class="credits-line credits-final"><span>Semester Total:</span> <span id="ba6-final">14cr</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Summary -->
+        <div class="overall-summary">
+            <h3 style="margin-bottom: 15px;">Overall 3rd Year Summary</h3>
+            <div class="credits-line">
+                <span>Bio/Physique Group:</span> 
+                <span>
+                    <span id="total-bio">0 credits (need 4+)</span>
+                    <span class="requirement-status incomplete" id="bio-status">INCOMPLETE</span>
+                </span>
+            </div>
+            <div class="credits-line">
+                <span>Projects Group:</span> 
+                <span>
+                    <span id="total-projects">0 credits (need 8+)</span>
+                    <span class="requirement-status incomplete" id="projects-status">INCOMPLETE</span>
+                </span>
+            </div>
+            <div class="credits-line">
+                <span>Options Group:</span> 
+                <span>
+                    <span id="total-options">0 credits (need 38)</span>
+                    <span class="requirement-status incomplete" id="options-status">INCOMPLETE</span>
+                </span>
+            </div>
+            <div class="credits-line"><span>Bloc C (Fixed):</span> <span>18 credits <span class="requirement-status complete">COMPLETE</span></span></div>
+            <div class="credits-line"><span>SHS (Fixed):</span> <span>4 credits <span class="requirement-status complete">COMPLETE</span></span></div>
+            <div class="credits-line credits-total"><span>Total 3rd Year:</span> <span id="grand-total">22 credits (need 62)</span></div>
+        </div>
+    </div>
+
+    <script src="courses.js"></script>
+    <script>
+
+        let selectedCourses = {
+            BA5: [],
+            BA6: []
+        };
+
+        let researchProjectGroup = 'projects'; // projects or options
+        let researchProjectSemester = 'BA5'; // BA5 or BA6
+        let mitSemester = 'BA5'; // BA5 or BA6
+
+        function openCourseLink(courseName, courseCode) {
+            const baseUrl = 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/';
+            const url = baseUrl + courseName + '-' + courseCode;
+            window.open(url, '_blank');
+        }
+
+        function generateCourseCard(course) {
+            const isSpecial = course.special === 'research' || course.special === 'mit';
+            let semesterDisplay = course.semesters.length > 1 ? course.semesters.join('/') : course.semesters[0];
+            
+            // For special courses with toggleable semesters, show current selection
+            if (course.special === 'research') {
+                semesterDisplay = researchProjectSemester;
+            } else if (course.special === 'mit') {
+                semesterDisplay = mitSemester;
+            }
+            
+            let specialToggles = '';
+            if (course.special === 'research') {
+                specialToggles = `
+                    <div class="special-toggles">
+                        <div class="toggle-row">
+                            <span>Count as:</span>
+                            <button class="toggle-button" onclick="toggleResearchGroup()" id="research-group-btn">${researchProjectGroup === 'projects' ? 'Projects' : 'Options'}</button>
+                        </div>
+                        <div class="toggle-row">
+                            <span>Semester:</span>
+                            <button class="toggle-button" onclick="toggleResearchSemester()" id="research-semester-btn">${researchProjectSemester}</button>
+                        </div>
+                    </div>
+                `;
+            } else if (course.special === 'mit') {
+                specialToggles = `
+                    <div class="special-toggles">
+                        <div class="toggle-row">
+                            <span>Semester:</span>
+                            <button class="toggle-button" onclick="toggleMITSemester()" id="mit-semester-btn">${mitSemester}</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="course-card ${course.group}-card" 
+                     data-course="${course.id}" 
+                     data-credits="${course.credits}" 
+                     data-group="${course.group}" 
+                     data-semesters="${course.semesters.join(',')}">
+                    <div class="course-title">${course.title}</div>
+                    <div class="course-code">${course.code}</div>
+                    <div class="course-details">
+                        <div class="course-details-left">
+                            <span class="course-group-indicator ${course.group === 'research' ? 'projects' : course.group}">${course.group === 'research' ? 'Research' : course.group.charAt(0).toUpperCase() + course.group.slice(1)}</span>
+                            <span class="course-semester">${semesterDisplay}</span>
+                            <span class="course-language">${course.language}</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 5px;">
+                            <button class="info-button" onclick="window.open('https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/${course.link}', '_blank')">Link</button>
+                            <span class="course-credits">${course.credits}cr</span>
+                        </div>
+                    </div>
+                    ${specialToggles}
+                </div>
+            `;
+        }
+
+        function generateCourseGroup(groupName, courses, requirements) {
+            const groupKey = groupName.toLowerCase().replace('/', '-');
+            const ba5Courses = courses.filter(c => 
+                !c.special && c.semesters.includes('BA5')
+            );
+            const ba6Courses = courses.filter(c => 
+                !c.special && c.semesters.includes('BA6')
+            );
+            const specialCourses = courses.filter(c => c.special);
+            
+            let courseCards = '';
+            
+            // BA5 courses
+            if (ba5Courses.length > 0) {
+                ba5Courses.sort((a, b) => a.title.localeCompare(b.title));
+                ba5Courses.forEach(course => {
+                    courseCards += generateCourseCard(course);
+                });
+            }
+            
+            // Separator line if needed
+            if (ba5Courses.length > 0 && ba6Courses.length > 0) {
+                courseCards += '<div class="semester-separator"></div>';
+            }
+            
+            // BA6 courses
+            if (ba6Courses.length > 0) {
+                ba6Courses.sort((a, b) => a.title.localeCompare(b.title));
+                ba6Courses.forEach(course => {
+                    courseCards += generateCourseCard(course);
+                });
+            }
+            
+            // Special courses (research project, MIT) at the end
+            if (specialCourses.length > 0) {
+                if ((ba5Courses.length > 0 || ba6Courses.length > 0)) {
+                    courseCards += '<div class="semester-separator"></div>';
+                }
+                specialCourses.sort((a, b) => a.title.localeCompare(b.title));
+                specialCourses.forEach(course => {
+                    courseCards += generateCourseCard(course);
+                });
+            }
+
+            return `
+                <div class="course-group ${groupKey}">
+                    <div class="group-header" onclick="toggleGroup('${groupKey}')">
+                        <h3>${groupName} Group (${requirements})</h3>
+                        <div class="group-info">
+                            <span class="group-credits" id="${groupKey}-credits">0 cr</span>
+                            <span class="toggle" id="${groupKey}-toggle">−</span>
+                        </div>
+                    </div>
+                    <div class="course-grid" id="${groupKey}-courses">
+                        ${courseCards}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateAllCourses() {
+            const container = document.getElementById('courses-container');
+            let html = '';
+            
+            html += generateCourseGroup('Bio/Physique', courseData['bio-physique'], '4+ credits required');
+            html += generateCourseGroup('Projects', courseData['projects'], '8+ credits required');
+            html += generateCourseGroup('Options', courseData['options'], '28+ credits required');
+            
+            container.innerHTML = html;
+        }
+
+        function toggleGroup(groupId) {
+            const courses = document.getElementById(groupId + '-courses');
+            const toggle = document.getElementById(groupId + '-toggle');
+            
+            if (courses.classList.contains('hidden')) {
+                courses.classList.remove('hidden');
+                toggle.textContent = '−';
+            } else {
+                courses.classList.add('hidden');
+                toggle.textContent = '+';
+            }
+        }
+
+        function toggleResearchGroup() {
+            researchProjectGroup = researchProjectGroup === 'projects' ? 'options' : 'projects';
+            
+            // Update button text
+            const btn = document.getElementById('research-group-btn');
+            if (btn) {
+                btn.textContent = researchProjectGroup === 'projects' ? 'Projects' : 'Options';
+            }
+            
+            // If course is already selected, update its group and re-render
+            if (isCourseSelected('CS-304')) {
+                updateSelectedCourseGroup('CS-304', researchProjectGroup);
+                renderSelectedCourses();
+            }
+            updateCredits();
+        }
+
+        function toggleResearchSemester() {
+            researchProjectSemester = researchProjectSemester === 'BA5' ? 'BA6' : 'BA5';
+            
+            // Update button text
+            const btn = document.getElementById('research-semester-btn');
+            if (btn) {
+                btn.textContent = researchProjectSemester;
+            }
+            
+            // Update semester display in course card
+            const courseCard = document.querySelector('[data-course="CS-304"]');
+            if (courseCard) {
+                const semesterElement = courseCard.querySelector('.course-semester');
+                if (semesterElement) {
+                    semesterElement.textContent = researchProjectSemester;
+                }
+            }
+            
+            // If course is already selected, move it to the new semester
+            if (isCourseSelected('CS-304')) {
+                moveCourseBetweenSemesters('CS-304', researchProjectSemester);
+                renderSelectedCourses();
+            }
+            updateCredits();
+        }
+
+        function toggleMITSemester() {
+            mitSemester = mitSemester === 'BA5' ? 'BA6' : 'BA5';
+            
+            // Update button text
+            const btn = document.getElementById('mit-semester-btn');
+            if (btn) {
+                btn.textContent = mitSemester;
+            }
+            
+            // Update semester display in course card
+            const courseCard = document.querySelector('[data-course="CS-358"]');
+            if (courseCard) {
+                const semesterElement = courseCard.querySelector('.course-semester');
+                if (semesterElement) {
+                    semesterElement.textContent = mitSemester;
+                }
+            }
+            
+            // If course is already selected, move it to the new semester
+            if (isCourseSelected('CS-358')) {
+                moveCourseBetweenSemesters('CS-358', mitSemester);
+                renderSelectedCourses();
+            }
+            updateCredits();
+        }
+
+        function moveCourseBetweenSemesters(courseId, targetSemester) {
+            let courseData = null;
+            ['BA5', 'BA6'].forEach(semester => {
+                const courseIndex = selectedCourses[semester].findIndex(c => c.id === courseId);
+                if (courseIndex !== -1) {
+                    courseData = selectedCourses[semester].splice(courseIndex, 1)[0];
+                }
+            });
+            
+            if (courseData) {
+                selectedCourses[targetSemester].push(courseData);
+            }
+        }
+
+        function updateSelectedCourseGroup(courseId, newGroup) {
+            ['BA5', 'BA6'].forEach(semester => {
+                const courseIndex = selectedCourses[semester].findIndex(c => c.id === courseId);
+                if (courseIndex !== -1) {
+                    selectedCourses[semester][courseIndex].group = newGroup;
+                }
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            // Check if clicked element is inside a course card
+            const courseCard = e.target.closest('.course-card');
+            
+            if (courseCard && !e.target.closest('.special-toggles') && !e.target.classList.contains('info-button')) {
+                toggleCourse(courseCard);
+            } else if (e.target.classList.contains('remove-btn')) {
+                removeCourse(e.target.dataset.courseId, e.target.dataset.semester);
+            }
+        });
+
+        function toggleCourse(courseCard) {
+            const courseId = courseCard.dataset.course;
+            
+            if (isCourseSelected(courseId)) {
+                // Remove course
+                ['BA5', 'BA6'].forEach(semester => {
+                    selectedCourses[semester] = selectedCourses[semester].filter(course => course.id !== courseId);
+                });
+                courseCard.classList.remove('selected');
+            } else {
+                // Add course to appropriate semester based on special properties
+                let targetSemester;
+                if (courseId === 'CS-304') {
+                    targetSemester = researchProjectSemester;
+                } else if (courseId === 'CS-358') {
+                    targetSemester = mitSemester;
+                } else {
+                    const semesters = courseCard.dataset.semesters.split(',');
+                    if (semesters.length === 1) {
+                        targetSemester = semesters[0];
+                    } else {
+                        // Multiple semesters - ask user
+                        const choice = prompt(`Choose semester for "${courseCard.querySelector('.course-title').textContent}":\n1. BA5 (Autumn)\n2. BA6 (Spring)\n\nEnter 1 or 2:`);
+                        if (choice === '1') {
+                            targetSemester = 'BA5';
+                        } else if (choice === '2') {
+                            targetSemester = 'BA6';
+                        } else {
+                            return; // Cancel
+                        }
+                    }
+                }
+                
+                addCourseToSemester(courseCard, targetSemester);
+            }
+            
+            renderSelectedCourses();
+            updateCredits();
+        }
+
+        function addCourseToSemester(courseCard, semester) {
+            const courseId = courseCard.dataset.course;
+            const credits = parseInt(courseCard.dataset.credits);
+            let group = courseCard.dataset.group;
+            
+            // Handle special cases
+            if (courseId === 'CS-304') {
+                group = researchProjectGroup;
+            }
+            
+            const title = courseCard.querySelector('.course-title').textContent;
+            const code = courseCard.querySelector('.course-code').textContent;
+
+            const courseData = {
+                id: courseId,
+                title: title,
+                code: code,
+                credits: credits,
+                group: group
+            };
+
+            selectedCourses[semester].push(courseData);
+            courseCard.classList.add('selected');
+        }
+
+        function removeCourse(courseId, semester) {
+            selectedCourses[semester] = selectedCourses[semester].filter(course => course.id !== courseId);
+            
+            // Unmark course card
+            const courseCard = document.querySelector(`[data-course="${courseId}"]`);
+            if (courseCard) {
+                courseCard.classList.remove('selected');
+            }
+            
+            renderSelectedCourses();
+            updateCredits();
+        }
+
+        function isCourseSelected(courseId) {
+            return selectedCourses.BA5.some(c => c.id === courseId) || 
+                   selectedCourses.BA6.some(c => c.id === courseId);
+        }
+
+        function renderSelectedCourses() {
+            ['BA5', 'BA6'].forEach(semester => {
+                // Clear all category sections
+                ['options', 'projects', 'bio'].forEach(category => {
+                    const container = document.getElementById(`${semester.toLowerCase()}-${category}-list`);
+                    container.innerHTML = '';
+                });
+                
+                // Group courses by category
+                const coursesByCategory = {
+                    options: [],
+                    projects: [],
+                    'bio-physique': []
+                };
+                
+                selectedCourses[semester].forEach(course => {
+                    if (coursesByCategory[course.group]) {
+                        coursesByCategory[course.group].push(course);
+                    }
+                });
+                
+                // Render each category
+                Object.keys(coursesByCategory).forEach(category => {
+                    const courses = coursesByCategory[category];
+                    if (courses.length === 0) return;
+                    
+                    // Sort alphabetically
+                    courses.sort((a, b) => a.title.localeCompare(b.title));
+                    
+                    const containerKey = category === 'bio-physique' ? 'bio' : category;
+                    const container = document.getElementById(`${semester.toLowerCase()}-${containerKey}-list`);
+                    
+                    courses.forEach(course => {
+                        const courseDiv = document.createElement('div');
+                        courseDiv.className = 'selected-course';
+                        courseDiv.innerHTML = `
+                            <div>
+                                <strong>${course.title}</strong><br>
+                                <small>${course.code} • ${course.credits}cr</small>
+                            </div>
+                            <button class="remove-btn" data-course-id="${course.id}" data-semester="${semester}">✕</button>
+                        `;
+                        container.appendChild(courseDiv);
+                    });
+                });
+            });
+        }
+
+        function updateCredits() {
+            ['BA5', 'BA6'].forEach(semester => {
+                const courses = selectedCourses[semester];
+                
+                const bio = courses.filter(c => c.group === 'bio-physique').reduce((sum, c) => sum + c.credits, 0);
+                const projects = courses.filter(c => c.group === 'projects').reduce((sum, c) => sum + c.credits, 0);
+                const options = courses.filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
+                const total = bio + projects + options;
+                
+                document.getElementById(semester.toLowerCase() + '-bio').textContent = bio + 'cr';
+                document.getElementById(semester.toLowerCase() + '-projects').textContent = projects + 'cr';
+                document.getElementById(semester.toLowerCase() + '-options').textContent = options + 'cr';
+                document.getElementById(semester.toLowerCase() + '-total').textContent = total + 'cr';
+                
+                const fixed = semester === 'BA5' ? 8 : 14; // BA5: 6+2, BA6: 12+2
+                document.getElementById(semester.toLowerCase() + '-final').textContent = (total + fixed) + 'cr';
+                
+                // Update top summary
+                document.getElementById('top-' + semester.toLowerCase() + '-credits').textContent = (total + fixed) + 'cr';
+            });
+
+            // Update overall summary
+            const totalBio = selectedCourses.BA5.concat(selectedCourses.BA6)
+                .filter(c => c.group === 'bio-physique').reduce((sum, c) => sum + c.credits, 0);
+            const totalProjects = selectedCourses.BA5.concat(selectedCourses.BA6)
+                .filter(c => c.group === 'projects').reduce((sum, c) => sum + c.credits, 0);
+            const totalOptions = selectedCourses.BA5.concat(selectedCourses.BA6)
+                .filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
+            
+            document.getElementById('total-bio').textContent = `${totalBio} credits (need 4+)`;
+            document.getElementById('total-projects').textContent = `${totalProjects} credits (need 8+)`;
+            document.getElementById('total-options').textContent = `${totalOptions} credits (need 28+)`;
+            
+            // Update requirement status
+            updateRequirementStatus('bio', totalBio >= 4);
+            updateRequirementStatus('projects', totalProjects >= 8);
+            updateRequirementStatus('options', totalOptions >= 28);
+            
+            const grandTotal = totalBio + totalProjects + totalOptions + 22; // +22 for Bloc C + SHS
+            document.getElementById('grand-total').textContent = `${grandTotal} credits (need 62)`;
+            document.getElementById('top-total-credits').textContent = `${grandTotal} / 62cr`;
+            
+            // Update group credit counters in headers
+            document.getElementById('bio-physique-credits').textContent = `${totalBio} cr`;
+            document.getElementById('projects-credits').textContent = `${totalProjects} cr`;
+            document.getElementById('options-credits').textContent = `${totalOptions} cr`;
+        }
+
+        function updateRequirementStatus(groupName, isComplete) {
+            const statusElement = document.getElementById(`${groupName}-status`);
+            if (isComplete) {
+                statusElement.textContent = 'COMPLETE';
+                statusElement.className = 'requirement-status complete';
+            } else {
+                statusElement.textContent = 'INCOMPLETE';
+                statusElement.className = 'requirement-status incomplete';
+            }
+        }
+
+        // Initialize the interface
+        generateAllCourses();
+        updateCredits();
+    </script>
+</body>
+</html>
