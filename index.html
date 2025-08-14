@@ -13,54 +13,75 @@
         <h1>EPFL Informatique 3rd Year Course Planner</h1>
 
         <!-- Top Summary Dashboard -->
-        <div class="top-summary">
-            <div class="summary-card">
-                <div class="summary-title">BA5 (Autumn 2025)</div>
-                <div class="summary-credits" id="top-ba5-credits">8cr</div>
-                <small>Including fixed courses</small>
-            </div>
-            <div class="summary-card">
-                <div class="summary-title">BA6 (Spring 2026)</div>
-                <div class="summary-credits" id="top-ba6-credits">14cr</div>
-                <small>Including fixed courses</small>
-            </div>
-            <div class="summary-card">
-                <div class="summary-title">Total 3rd Year</div>
-                <div class="summary-credits" id="top-total-credits">22 / 62cr</div>
-                <small>Need 62 credits total</small>
-            </div>
-        </div>
-
-        <!-- Overall Summary -->
-        <div class="overall-summary">
-            <h3 style="margin-bottom: 15px;">Overall 3rd Year Summary</h3>
-            <div class="credits-line">
-                <span>Physique/Bio Group:</span>
-                <span>
-                    <span id="total-bio">0 credits (need 4+)</span>
-                    <span class="requirement-status incomplete" id="bio-status">INCOMPLETE</span>
-                </span>
-            </div>
-            <div class="credits-line">
-                <span>Projets Group:</span>
-                <span>
-                    <span id="total-projects">0 credits (need 8+)</span>
-                    <span class="requirement-status incomplete" id="projects-status">INCOMPLETE</span>
-                </span>
-            </div>
-            <div class="credits-line">
-                <span>Options Group:</span>
-                <span>
-                    <span id="total-options">0 credits (need 28+)</span>
-                    <span class="requirement-status incomplete" id="options-status">INCOMPLETE</span>
-                </span>
-            </div>
-            <div class="credits-line"><span>Bloc C (Fixed):</span> <span>18 credits <span
-                        class="requirement-status complete">COMPLETE</span></span></div>
-            <div class="credits-line"><span>SHS (Fixed):</span> <span>4 credits <span
-                        class="requirement-status complete">COMPLETE</span></span></div>
-            <div class="credits-line credits-total"><span>Total 3rd Year:</span> <span id="grand-total">22 credits (need
-                    62)</span></div>
+        <div class="main-summary">
+            <h2 class="summary-header">3rd Year Progress</h2>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>BA5 Credits</th>
+                        <th>BA6 Credits</th>
+                        <th>Total 3rd Year (Requirement)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic Rows -->
+                    <tr>
+                        <td>Physique/Bio Group</td>
+                        <td id="summary-ba5-bio">0 cr</td>
+                        <td id="summary-ba6-bio">0 cr</td>
+                        <td>
+                            <span id="summary-total-bio">0 / 4+ cr</span>
+                            <span class="requirement-status incomplete" id="summary-bio-status"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Projets Group</td>
+                        <td id="summary-ba5-projets">0 cr</td>
+                        <td id="summary-ba6-projets">0 cr</td>
+                        <td>
+                            <span id="summary-total-projets">0 / 8+ cr</span>
+                            <span class="requirement-status incomplete" id="summary-projets-status"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Options Group</td>
+                        <td id="summary-ba5-options">0 cr</td>
+                        <td id="summary-ba6-options">0 cr</td>
+                        <td>
+                            <span id="summary-total-options">0 / 28+ cr</span>
+                            <span class="requirement-status incomplete" id="summary-options-status"></span>
+                        </td>
+                    </tr>
+                    <!-- Fixed Rows -->
+                    <tr class="fixed-row">
+                        <td>Bloc C (Fixed)</td>
+                        <td>6 cr</td>
+                        <td>12 cr</td>
+                        <td>
+                            <span>18 / 18 cr</span>
+                            <span class="requirement-status complete">COMPLETE</span>
+                        </td>
+                    </tr>
+                    <tr class="fixed-row">
+                        <td>SHS (Fixed)</td>
+                        <td>2 cr</td>
+                        <td>2 cr</td>
+                        <td>
+                            <span>4 / 4 cr</span>
+                            <span class="requirement-status complete">COMPLETE</span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="summary-total-row">
+                        <td>Grand Total</td>
+                        <td id="summary-ba5-total">8 cr</td>
+                        <td id="summary-ba6-total">14 cr</td>
+                        <td id="summary-grand-total">22 / 62 cr</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
 
         <div class="planner">
@@ -650,61 +671,78 @@
         }
 
         function updateCredits() {
-            ['BA5', 'BA6'].forEach(semester => {
-                const courses = selectedCourses[semester];
+            // --- Per-Semester Calculations for Selected Courses ---
+            const ba5_bio = selectedCourses.BA5.filter(c => c.group === 'physique-bio').reduce((sum, c) => sum + c.credits, 0);
+            const ba5_projets = selectedCourses.BA5.filter(c => c.group === 'projets').reduce((sum, c) => sum + c.credits, 0);
+            const ba5_options = selectedCourses.BA5.filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
 
-                const bio = courses.filter(c => c.group === 'physique-bio').reduce((sum, c) => sum + c.credits, 0);
-                const projects = courses.filter(c => c.group === 'projets').reduce((sum, c) => sum + c.credits, 0);
-                const options = courses.filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
-                const total = bio + projects + options;
+            const ba6_bio = selectedCourses.BA6.filter(c => c.group === 'physique-bio').reduce((sum, c) => sum + c.credits, 0);
+            const ba6_projets = selectedCourses.BA6.filter(c => c.group === 'projets').reduce((sum, c) => sum + c.credits, 0);
+            const ba6_options = selectedCourses.BA6.filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
 
-                document.getElementById(semester.toLowerCase() + '-bio').textContent = bio + 'cr';
-                document.getElementById(semester.toLowerCase() + '-projects').textContent = projects + 'cr';
-                document.getElementById(semester.toLowerCase() + '-options').textContent = options + 'cr';
-                document.getElementById(semester.toLowerCase() + '-total').textContent = total + 'cr';
+            // --- Total Year Calculations ---
+            const totalBio = ba5_bio + ba6_bio;
+            const totalProjets = ba5_projets + ba6_projets;
+            const totalOptions = ba5_options + ba6_options;
 
-                const fixed = semester === 'BA5' ? 8 : 14; // BA5: 6+2, BA6: 12+2
-                document.getElementById(semester.toLowerCase() + '-final').textContent = (total + fixed) + 'cr';
+            // --- Update Main Summary Table ---
 
-                // Update top summary
-                document.getElementById('top-' + semester.toLowerCase() + '-credits').textContent = (total + fixed) + 'cr';
-            });
+            // Physique/Bio Row
+            document.getElementById('summary-ba5-bio').textContent = ba5_bio + ' cr';
+            document.getElementById('summary-ba6-bio').textContent = ba6_bio + ' cr';
+            document.getElementById('summary-total-bio').textContent = `${totalBio} / 4+ cr`;
+            updateRequirementStatus('summary-bio-status', totalBio >= 4);
 
-            // Update overall summary
-            const totalBio = selectedCourses.BA5.concat(selectedCourses.BA6)
-                .filter(c => c.group === 'physique-bio').reduce((sum, c) => sum + c.credits, 0);
-            const totalProjects = selectedCourses.BA5.concat(selectedCourses.BA6)
-                .filter(c => c.group === 'projets').reduce((sum, c) => sum + c.credits, 0);
-            const totalOptions = selectedCourses.BA5.concat(selectedCourses.BA6)
-                .filter(c => c.group === 'options').reduce((sum, c) => sum + c.credits, 0);
+            // Projets Row
+            document.getElementById('summary-ba5-projets').textContent = ba5_projets + ' cr';
+            document.getElementById('summary-ba6-projets').textContent = ba6_projets + ' cr';
+            document.getElementById('summary-total-projets').textContent = `${totalProjets} / 8+ cr`;
+            updateRequirementStatus('summary-projets-status', totalProjets >= 8);
 
-            document.getElementById('total-bio').textContent = `${totalBio} credits (need 4+)`;
-            document.getElementById('total-projects').textContent = `${totalProjects} credits (need 8+)`;
-            document.getElementById('total-options').textContent = `${totalOptions} credits (need 28+)`;
+            // Options Row
+            document.getElementById('summary-ba5-options').textContent = ba5_options + ' cr';
+            document.getElementById('summary-ba6-options').textContent = ba6_options + ' cr';
+            document.getElementById('summary-total-options').textContent = `${totalOptions} / 28+ cr`;
+            updateRequirementStatus('summary-options-status', totalOptions >= 28);
 
-            // Update requirement status
-            updateRequirementStatus('bio', totalBio >= 4);
-            updateRequirementStatus('projects', totalProjects >= 8);
-            updateRequirementStatus('options', totalOptions >= 28);
+            // Grand Total Row
+            const fixedBA5 = 8; // 6 (Bloc C) + 2 (SHS)
+            const fixedBA6 = 14; // 12 (Bloc C) + 2 (SHS)
+            const ba5GrandTotal = ba5_bio + ba5_projets + ba5_options + fixedBA5;
+            const ba6GrandTotal = ba6_bio + ba6_projets + ba6_options + fixedBA6;
+            const grandTotal = ba5GrandTotal + ba6GrandTotal;
 
-            const grandTotal = totalBio + totalProjects + totalOptions + 22; // +22 for Bloc C + SHS
-            document.getElementById('grand-total').textContent = `${grandTotal} credits (need 62)`;
-            document.getElementById('top-total-credits').textContent = `${grandTotal} / 62cr`;
+            document.getElementById('summary-ba5-total').textContent = ba5GrandTotal + ' cr';
+            document.getElementById('summary-ba6-total').textContent = ba6GrandTotal + ' cr';
+            document.getElementById('summary-grand-total').textContent = `${grandTotal} / 62 cr`;
 
-            // Update group credit counters in headers
+            // --- Update the per-semester summaries in the side columns ---
+            document.getElementById('ba5-bio').textContent = ba5_bio + 'cr';
+            document.getElementById('ba5-projects').textContent = ba5_projets + 'cr';
+            document.getElementById('ba5-options').textContent = ba5_options + 'cr';
+            document.getElementById('ba5-total').textContent = (ba5_bio + ba5_projets + ba5_options) + 'cr';
+            document.getElementById('ba5-final').textContent = ba5GrandTotal + 'cr';
+
+            document.getElementById('ba6-bio').textContent = ba6_bio + 'cr';
+            document.getElementById('ba6-projects').textContent = ba6_projets + 'cr';
+            document.getElementById('ba6-options').textContent = ba6_options + 'cr';
+            document.getElementById('ba6-total').textContent = (ba6_bio + ba6_projets + ba6_options) + 'cr';
+            document.getElementById('ba6-final').textContent = ba6GrandTotal + 'cr';
+
+            // --- Update group credit counters in the "Available Courses" headers ---
             if (document.getElementById('physique-bio-credits')) {
                 document.getElementById('physique-bio-credits').textContent = `${totalBio} cr`;
             }
             if (document.getElementById('projets-credits')) {
-                document.getElementById('projets-credits').textContent = `${totalProjects} cr`;
+                document.getElementById('projets-credits').textContent = `${totalProjets} cr`;
             }
             if (document.getElementById('options-credits')) {
                 document.getElementById('options-credits').textContent = `${totalOptions} cr`;
             }
         }
 
-        function updateRequirementStatus(groupName, isComplete) {
-            const statusElement = document.getElementById(`${groupName}-status`);
+        function updateRequirementStatus(elementId, isComplete) {
+            const statusElement = document.getElementById(elementId);
             if (isComplete) {
                 statusElement.textContent = 'COMPLETE';
                 statusElement.className = 'requirement-status complete';
