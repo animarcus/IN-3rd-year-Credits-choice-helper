@@ -1,6 +1,6 @@
 // Course data extracted from EPFL study plan 2025-2026
 const courseData = {
-    'bloc-c': [
+    'allCourses': [
         {
             id: 'COM-301',
             title: 'Computer security and privacy',
@@ -30,9 +30,7 @@ const courseData = {
             semesters: ['BA6'],
             group: 'bloc-c',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/theory-of-computation-CS-251'
-        }
-    ],
-    'shs': [
+        },
         {
             id: 'SHS-BA5',
             title: 'SHS + MGT : Cycle Bachelor BA5',
@@ -52,9 +50,7 @@ const courseData = {
             semesters: ['BA6'],
             group: 'shs',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/programme-sciences-humaines-et-sociales'
-        }
-    ],
-    'options': [
+        },
         {
             id: 'MATH-310',
             title: 'Algebra',
@@ -252,7 +248,7 @@ const courseData = {
             credits: 8,
             language: 'FR',
             semesters: ['BA5', 'BA6'],
-            group: 'projects',
+            group: 'options',
             toggleable: true,
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/projet-de-recherche-optionnel-en-informatique-i-CS-304'
         },
@@ -285,9 +281,7 @@ const courseData = {
             semesters: ['BA3'],
             group: 'options',
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/technologies-for-democratic-society-CS-234'
-        }
-    ],
-    'physique-bio': [
+        },
         {
             id: 'BIO-109',
             title: 'Introduction aux sciences du vivant (pour IC)',
@@ -342,9 +336,7 @@ const courseData = {
             group: 'physique-bio',
             toggleable: true,
             link: 'https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/quantum-mechanics-for-non-physicists-PHYS-344'
-        }
-    ],
-    'projets': [
+        },
         {
             id: 'CS-358(a)',
             title: 'Making intelligent things A',

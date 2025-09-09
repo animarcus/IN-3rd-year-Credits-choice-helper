@@ -1,3 +1,4 @@
+/* --- 1. Global & Base Styles --- */
 * {
     margin: 0;
     padding: 0;
@@ -7,60 +8,76 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
-    padding: 20px;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1800px;
     margin: 0 auto;
+    padding: 24px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 h1 {
     text-align: center;
     color: #d32f2f;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     font-size: 2.5rem;
+    flex-shrink: 0;
 }
 
-.top-summary {
+/* --- 2. Main Two-Column Layout --- */
+.planner-body {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    flex-grow: 1;
+    min-height: 0;
 }
 
-.summary-card {
-    background: white;
-    padding: 20px;
+.plan-column, .available-courses-column {
+    overflow-y: auto;
+    padding: 8px;
+}
+
+.plan-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.available-courses-column {
+    background: #fdfdfd;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
 }
 
-.summary-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-}
-
-.summary-credits {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #2196f3;
-}
-
-.planner {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    min-height: 80vh;
-}
-
-.semester-column {
+/* --- 3. Left Column: Summary & Selections --- */
+.main-summary, .semester-column {
     background: white;
     border-radius: 10px;
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.main-summary {
+    flex-shrink: 0;
+}
+
+.summary-header {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.semester-selections-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
 }
 
 .semester-title {
@@ -71,293 +88,97 @@ h1 {
     color: #333;
 }
 
-.courses-column {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    max-height: 80vh;
+/* --- 4. Summary Table (REVISED STYLES) --- */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
 }
 
-.fixed-section {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #f0f0f0;
-    border-radius: 8px;
-    border-left: 4px solid #666;
+.summary-table th, .summary-table td {
+    padding: 14px 10px;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.fixed-section h3 {
-    color: #666;
-    margin-bottom: 10px;
-}
-
-.fixed-course {
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.fixed-course-info {
-    flex: 1;
-}
-
-.fixed-course-btn {
-    background: #666;
-    color: white;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 3px;
-    font-size: 0.7rem;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-.fixed-course-btn:hover {
-    background: #555;
-}
-
-.course-group {
-    margin-bottom: 30px;
-}
-
-.group-header {
-    background: #e3f2fd;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    cursor: pointer;
-    border-left: 4px solid #2196f3;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.group-header h3 {
-    color: #1976d2;
-    margin: 0;
-}
-
-.group-header .group-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.group-credits {
-    background: #1976d2;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.9rem;
+.summary-table th {
     font-weight: bold;
+    color: #343a40;
+    text-align: left;
 }
 
-.group-header .toggle {
-    font-size: 1.2rem;
-    color: #1976d2;
+.summary-table th:not(:first-child) {
+    text-align: center;
 }
 
-.course-grid {
-    display: grid;
-    gap: 10px;
+.summary-table td {
+    color: #495057;
+    vertical-align: middle;
 }
 
-.course-card {
-    border: 1px solid #ddd;
-    border-radius: 3px;
-    padding: 8px 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    background: white;
-    margin-bottom: 2px;
+.summary-table td:not(:first-child) {
+    text-align: center;
 }
 
-.course-card.bio-physique-card {
-    background: #f1f8e9;
-    border-left: 3px solid #8bc34a;
+.summary-table .fixed-row {
+    background-color: #fafafa;
+    font-size: 0.95rem;
 }
 
-.course-card.projects-card {
-    background: #fff3e0;
-    border-left: 3px solid #ff9800;
-}
-
-.course-card.options-card {
-    background: #f3e5f5;
-    border-left: 3px solid #9c27b0;
-}
-
-.course-card:hover {
-    border-color: #2196f3;
-    transform: translateY(-1px);
-}
-
-.course-card.selected {
-    border-color: #4caf50;
-    background: #e8f5e8;
-    border-left: 3px solid #4caf50;
-}
-
-.course-title {
+.summary-table tfoot .summary-total-row {
     font-weight: bold;
-    color: #333;
-    margin-bottom: 5px;
+    font-size: 1.1rem;
+    color: #2e7d32;
+    background-color: #e8f5e9;
+    border-top: 2px solid #a5d6a7;
 }
 
-.course-code {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 8px;
+.summary-table tfoot tr:first-child td {
+    border-bottom: none;
 }
 
-.course-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.course-details-left {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.course-credits {
-    background: #2196f3;
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
+/* --- Status Indicators (REVISED STYLES) --- */
+.requirement-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
     font-weight: bold;
-    font-size: 0.9rem;
-}
-
-.course-language {
-    background: #ff9800;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-}
-
-.course-semester {
-    background: #607d8b;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.8rem;
-}
-
-.course-group-indicator {
-    background: #666;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 2px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.course-group-indicator.bio-physique {
-    background: #8bc34a;
-}
-
-.course-group-indicator.projects {
-    background: #ff9800;
-}
-
-.course-group-indicator.options {
-    background: #9c27b0;
-}
-
-.special-toggles {
-    margin-top: 10px;
-    padding: 8px;
-    background: #fff3e0;
-    border-radius: 4px;
-    font-size: 0.9rem;
-}
-
-.toggle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}
-
-.toggle-row:last-child {
-    margin-bottom: 0;
-}
-
-.toggle-button {
-    background: linear-gradient(135deg, #ff9800, #f57c00);
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-left: 5px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: all 0.2s ease;
+    margin-left: 15px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    vertical-align: middle;
 }
 
-.toggle-button:hover {
-    background: linear-gradient(135deg, #f57c00, #e65100);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+.requirement-status.complete {
+    background: #4caf50;
+    color: white;
 }
 
-.toggle-button:active {
-    transform: translateY(0);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+/* This special rule styles the dash in the fixed rows */
+.fixed-row .requirement-status.complete {
+    background: none;
+    color: #4caf50;
+    font-weight: bold;
+    font-size: 1.5rem;
+    /* Makes the dash character look like a line */
+    margin-left: 15px;
+    padding: 0;
+    line-height: 1;
+    /* Aligns the dash vertically */
 }
 
-.selected-course {
-    background: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    padding: 6px 8px;
-    margin-bottom: 2px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.9rem;
-}
-
-.selected-course .remove-btn {
+.requirement-status.incomplete {
     background: #f44336;
     color: white;
-    border: none;
-    border-radius: 2px;
-    padding: 2px 4px;
-    cursor: pointer;
-    font-size: 0.7rem;
 }
 
-.category-section {
-    margin-bottom: 15px;
-}
 
-.category-title {
-    font-weight: bold;
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-    padding: 4px 0;
-    border-bottom: 1px solid #ddd;
-}
-
+/* --- 5. Other Component Styles (Largely Unchanged) --- */
 .credits-summary {
     background: #e8f5e8;
     padding: 15px;
     border-radius: 8px;
-    margin: 20px 0px;
+    margin-bottom: 20px;
     border-left: 4px solid #4caf50;
 }
 
@@ -381,103 +202,57 @@ h1 {
     font-size: 1.2rem;
 }
 
-.overall-summary {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px 0px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.fixed-section {
+    margin-bottom: 15px;
+    padding: 15px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    border-left: 4px solid #666;
 }
 
-.requirement-status {
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.8rem;
+.fixed-section h3 {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.compact-fixed-course {
+    color: #333;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.category-title {
     font-weight: bold;
-    margin-left: 10px;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #ddd;
 }
 
-.requirement-status.complete {
-    background: #4caf50;
-    color: white;
+.selected-course {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
 }
 
-.requirement-status.incomplete {
+.remove-btn {
     background: #f44336;
     color: white;
-}
-
-.hidden {
-    display: none;
-}
-
-.bio-physique {
-    border-left-color: #8bc34a;
-}
-
-.bio-physique .group-header {
-    background: #f1f8e9;
-    border-left-color: #8bc34a;
-}
-
-.bio-physique .group-header h3 {
-    color: #689f38;
-}
-
-.projects {
-    border-left-color: #ff9800;
-}
-
-.projects .group-header {
-    background: #fff3e0;
-    border-left-color: #ff9800;
-}
-
-.projects .group-header h3 {
-    color: #f57c00;
-}
-
-.options {
-    border-left-color: #9c27b0;
-}
-
-.options .group-header {
-    background: #f3e5f5;
-    border-left-color: #9c27b0;
-}
-
-.options .group-header h3 {
-    color: #7b1fa2;
-}
-
-.semester-separator {
-    width: 100%;
-    text-align: center;
-    font-weight: bold;
-    color: #555;
-    background-color: #f0f0f0;
-    padding: 8px 0;
-    margin: 20px 0 12px 0;
-    border-top: 1px solid #ddd;
-    border-bottom: 1px solid #ddd;
-    font-size: 0.9rem;
-    grid-column: 1 / -1;
-    /* This makes the separator span all columns in the grid */
-}
-
-.info-button {
-    background: #666;
-    color: white;
     border: none;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.7rem;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    margin-left: 5px;
-}
-
-.info-button:hover {
-    background: #555;
+    font-size: 0.8rem;
+    line-height: 20px;
+    text-align: center;
 }
 
 .semester-toggle-btn {
@@ -492,11 +267,110 @@ h1 {
     margin-right: 5px;
 }
 
-.semester-toggle-btn:hover {
-    background: #1976d2;
+.available-courses-column .section-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    padding: 0 12px;
 }
 
-/* Enhanced styling for selected cards */
+#courses-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.course-group {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+}
+
+.course-group.options {
+    grid-column: 1 / -1;
+}
+
+.group-header {
+    padding: 0 0 15px 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.group-header h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+}
+
+.group-header .group-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.group-credits {
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.projets .group-credits {
+    background: #ff9800;
+    color: #212529;
+}
+
+.physique-bio .group-credits {
+    background: #8bc34a;
+}
+
+.options .group-credits {
+    background: #9c27b0;
+}
+
+.semester-separator {
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #5e6c84;
+    background-color: #f4f5f7;
+    padding: 8px 12px;
+    margin: 15px 0;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+}
+
+.course-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.course-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background: white;
+}
+
+.course-card:hover {
+    border-color: #2196f3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
 .course-card.selected {
     border: 2px solid #4caf50 !important;
     background: linear-gradient(135deg, #e8f5e8, #c8e6c8) !important;
@@ -514,114 +388,119 @@ h1 {
     box-shadow: 0 2px 4px rgba(76, 175, 80, 0.4) !important;
 }
 
-.main-summary {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.summary-header {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-size: 1.6rem;
-}
-
-.summary-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-}
-
-.summary-table th, .summary-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.summary-table th {
-    background-color: #f8f9fa;
-    color: #333;
-    font-weight: 600;
-}
-
-.summary-table td:not(:first-child) {
-    text-align: center;
-}
-
-.summary-table tbody tr:hover {
-    background-color: #f5f5f5;
-}
-
-.summary-table .fixed-row {
-    color: #555;
-    background-color: #fafafa;
-}
-
-.summary-table tfoot .summary-total-row {
+.course-title {
     font-weight: bold;
-    font-size: 1.1rem;
-    background-color: #e8f5e8;
-    color: #2e7d32;
-    border-top: 2px solid #4caf50;
+    color: #333;
+    margin-bottom: 4px;
 }
 
-.summary-table .requirement-status {
-    display: inline-block;
-    padding: 3px 8px;
-    border-radius: 12px;
+.course-code {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+.course-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.course-details-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.course-credits {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: white;
+    background: #2196f3;
+}
+
+.course-language, .course-semester, .course-group-indicator {
+    padding: 3px 6px;
+    border-radius: 3px;
     font-size: 0.75rem;
-    font-weight: bold;
-    margin-left: 10px;
-    min-width: 80px;
-    /* Ensures consistent width */
-    text-align: center;
+    color: white;
+    font-weight: 500;
+}
+
+.course-language {
+    background: #ff9800;
+}
+
+.course-semester {
+    background: #607d8b;
+}
+
+.course-group-indicator.physique-bio {
+    background: #8bc34a;
+}
+
+.course-group-indicator.projets {
+    background: #ff9800;
+    color: #212529;
+}
+
+.course-group-indicator.options {
+    background: #9c27b0;
+}
+
+.info-button {
+    background: #666;
+    color: white;
+    border: none;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    cursor: pointer;
+}
+
+.toggle-section {
+    margin-top: 10px;
+    border-top: 1px dashed #ccc;
+    padding-top: 10px;
+    font-size: 0.8rem;
+}
+
+.toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.toggle-button {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* --- 6. Responsive Design --- */
+@media (max-width: 1200px) {
+    body {
+        height: auto;
+        overflow: auto;
+    }
+
+    .planner-body {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
-    .container {
-        padding: 10px;
-    }
-
-    h1 {
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-    }
-
-    .top-summary {
+    #courses-container {
         grid-template-columns: 1fr;
-        gap: 10px;
-        margin-bottom: 20px;
     }
 
-    .planner {
-        display: block;
-    }
-
-    .courses-column {
-        margin-bottom: 20px;
-        max-height: none;
-    }
-
-    .semester-columns-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-
-    .semester-column {
-        padding: 15px;
-    }
-
-    .semester-title {
-        font-size: 1.2rem;
-    }
-}
-
-@media (min-width: 769px) {
-    .semester-columns-container {
-        display: contents;
+    .semester-selections-wrapper {
+        grid-template-columns: 1fr;
     }
 }

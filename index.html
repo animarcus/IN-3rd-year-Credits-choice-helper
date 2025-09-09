@@ -12,186 +12,146 @@
     <div class="container">
         <h1>EPFL Informatique 3rd Year Course Planner</h1>
 
-        <!-- Top Summary Dashboard -->
-        <div class="main-summary">
-            <h2 class="summary-header">3rd Year Progress</h2>
-            <table class="summary-table">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>BA5 Credits</th>
-                        <th>BA6 Credits</th>
-                        <th>Total 3rd Year (Requirement)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamic Rows -->
-                    <tr>
-                        <td>Physique/Bio Group</td>
-                        <td id="summary-ba5-bio">0 cr</td>
-                        <td id="summary-ba6-bio">0 cr</td>
-                        <td>
-                            <span id="summary-total-bio">0 / 4+ cr</span>
-                            <span class="requirement-status incomplete" id="summary-bio-status"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Projets Group</td>
-                        <td id="summary-ba5-projets">0 cr</td>
-                        <td id="summary-ba6-projets">0 cr</td>
-                        <td>
-                            <span id="summary-total-projets">0 / 8+ cr</span>
-                            <span class="requirement-status incomplete" id="summary-projets-status"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Options Group</td>
-                        <td id="summary-ba5-options">0 cr</td>
-                        <td id="summary-ba6-options">0 cr</td>
-                        <td>
-                            <span id="summary-total-options">0 / 28+ cr</span>
-                            <span class="requirement-status incomplete" id="summary-options-status"></span>
-                        </td>
-                    </tr>
-                    <!-- Fixed Rows -->
-                    <tr class="fixed-row">
-                        <td>Bloc C (Fixed)</td>
-                        <td>6 cr</td>
-                        <td>12 cr</td>
-                        <td>
-                            <span>18 / 18 cr</span>
-                            <span class="requirement-status complete">COMPLETE</span>
-                        </td>
-                    </tr>
-                    <tr class="fixed-row">
-                        <td>SHS (Fixed)</td>
-                        <td>2 cr</td>
-                        <td>2 cr</td>
-                        <td>
-                            <span>4 / 4 cr</span>
-                            <span class="requirement-status complete">COMPLETE</span>
-                        </td>
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <tr class="summary-total-row">
-                        <td>Grand Total</td>
-                        <td id="summary-ba5-total">8 cr</td>
-                        <td id="summary-ba6-total">14 cr</td>
-                        <td id="summary-grand-total">22 / 62 cr</td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        <!-- Main Body Container: Left for Plan, Right for Courses -->
+        <div class="planner-body">
 
-        <div class="planner">
-            <!-- BA5 (Autumn) Column -->
-            <div class="semester-column">
-                <h2 class="semester-title">BA5 (Autumn 2025)</h2>
-
-                <div class="credits-summary">
-                    <div class="credits-line"><span>Physique/Bio:</span> <span id="ba5-bio">0cr</span></div>
-                    <div class="credits-line"><span>Projets:</span> <span id="ba5-projects">0cr</span></div>
-                    <div class="credits-line"><span>Options:</span> <span id="ba5-options">0cr</span></div>
-                    <div class="credits-line credits-total"><span>Total Selected:</span> <span id="ba5-total">0cr</span>
-                    </div>
-                    <div class="credits-line credits-final"><span>Semester Total:</span> <span id="ba5-final">8cr</span>
-                    </div>
-                </div>
-
-                <div class="fixed-section">
-                    <h3>Bloc C (Fixed)</h3>
-                    <div class="fixed-course">
-                        <div class="fixed-course-info">
-                            Computer security and privacy<br>
-                            <small>COM-301 • 6cr • EN</small>
+            <!-- ======================================================= -->
+            <!--                  LEFT COLUMN (The Plan)                 -->
+            <!-- ======================================================= -->
+            <div class="plan-column">
+                <!-- Semester Selections Wrapper (Bottom 2/3) -->
+                <div class="semester-selections-wrapper">
+                    <!-- BA5 Selections -->
+                    <div class="semester-column" id="ba5-selection-column">
+                        <h2 class="semester-title">BA5 Selections</h2>
+                        <div class="credits-summary">
+                            <div class="credits-line"><span>Total Selected:</span> <span id="ba5-total">0cr</span></div>
+                            <div class="credits-line credits-final"><span>Semester Total:</span> <span
+                                    id="ba5-final">8cr</span></div>
                         </div>
-                        <button class="fixed-course-btn"
-                            onclick="openCourseLink('https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/computer-security-and-privacy-COM-301')">Link</button>
+                        <div class="semester-scrollable-content">
+                            <div class="fixed-section">
+                                <h3>Bloc C & SHS (Fixed)</h3>
+                                <div class="compact-fixed-course">Computer security and privacy (6cr)</div>
+                                <div class="compact-fixed-course">SHS Course (2cr)</div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-title">Options</div>
+                                <div id="ba5-options-list"></div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-title">Projects</div>
+                                <div id="ba5-projects-list"></div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-title">Bio/Physique</div>
+                                <div id="ba5-bio-list"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- BA6 Selections -->
+                    <div class="semester-column" id="ba6-selection-column">
+                        <h2 class="semester-title">BA6 Selections</h2>
+                        <div class="credits-summary">
+                            <div class="credits-line"><span>Total Selected:</span> <span id="ba6-total">0cr</span></div>
+                            <div class="credits-line credits-final"><span>Semester Total:</span> <span
+                                    id="ba6-final">14cr</span></div>
+                        </div>
+                        <div class="semester-scrollable-content">
+                            <div class="fixed-section">
+                                <h3>Bloc C & SHS (Fixed)</h3>
+                                <div class="compact-fixed-course">Data-intensive systems (6cr)</div>
+                                <div class="compact-fixed-course">Theory of computation (6cr)</div>
+                                <div class="compact-fixed-course">SHS Course (2cr)</div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-title">Options</div>
+                                <div id="ba6-options-list"></div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-title">Projects</div>
+                                <div id="ba6-projects-list"></div>
+                            </div>
+                            <div class="category-section">
+                                <div class="category-title">Bio/Physique</div>
+                                <div id="ba6-bio-list"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="category-section">
-                    <div class="category-title">Options</div>
-                    <div id="ba5-options-list"></div>
+                <!-- Summary Section (Top 1/3) -->
+                <div class="main-summary">
+                    <h2 class="summary-header">3rd Year Progress</h2>
+                    <table class="summary-table">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>BA5</th>
+                                <th>BA6</th>
+                                <th>Total (Requirement)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Physique/Bio</td>
+                                <td id="summary-ba5-bio">0 cr</td>
+                                <td id="summary-ba6-bio">0 cr</td>
+                                <td><span id="summary-total-bio">0/4+</span><span class="requirement-status incomplete"
+                                        id="summary-bio-status"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Projets</td>
+                                <td id="summary-ba5-projets">0 cr</td>
+                                <td id="summary-ba6-projets">0 cr</td>
+                                <td><span id="summary-total-projets">0/8+</span><span
+                                        class="requirement-status incomplete" id="summary-projets-status"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Options</td>
+                                <td id="summary-ba5-options">0 cr</td>
+                                <td id="summary-ba6-options">0 cr</td>
+                                <td><span id="summary-total-options">0/28+</span><span
+                                        class="requirement-status incomplete" id="summary-options-status"></span></td>
+                            </tr>
+                            <tr class="fixed-row">
+                                <td>Bloc C (Fixed)</td>
+                                <td>6 cr</td>
+                                <td>12 cr</td>
+                                <td><span>18/18</span><span class="requirement-status complete">—</span></td>
+                            </tr>
+                            <tr class="fixed-row">
+                                <td>SHS (Fixed)</td>
+                                <td>2 cr</td>
+                                <td>2 cr</td>
+                                <td><span>4/4</span><span class="requirement-status complete">—</span></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="summary-total-row">
+                                <td>Grand Total</td>
+                                <td id="summary-ba5-total">8 cr</td>
+                                <td id="summary-ba6-total">14 cr</td>
+                                <td id="summary-grand-total">22 / 62 cr</td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
 
-                <div class="category-section">
-                    <div class="category-title">Projects</div>
-                    <div id="ba5-projects-list"></div>
-                </div>
 
-                <div class="category-section">
-                    <div class="category-title">Bio/Physique</div>
-                    <div id="ba5-bio-list"></div>
-                </div>
 
-                <div class="fixed-section">
-                    <h3>SHS (Fixed)</h3>
-                    <div>2 credits</div>
+            </div>
+
+            <!-- ======================================================= -->
+            <!--                RIGHT COLUMN (The Palette)               -->
+            <!-- ======================================================= -->
+            <div class="available-courses-column">
+                <h2 class="section-title">Available Courses</h2>
+                <div id="courses-container">
+                    <!-- JS will generate the course groups here -->
                 </div>
             </div>
 
-            <!-- Available Courses Column -->
-            <div class="courses-column">
-                <h2 style="text-align: center; margin-bottom: 20px;">Available Courses</h2>
-                <div id="courses-container"></div>
-            </div>
-
-            <!-- BA6 (Spring) Column -->
-            <div class="semester-column">
-                <h2 class="semester-title">BA6 (Spring 2026)</h2>
-
-                <div class="credits-summary">
-                    <div class="credits-line"><span>Physique/Bio:</span> <span id="ba6-bio">0cr</span></div>
-                    <div class="credits-line"><span>Projets:</span> <span id="ba6-projects">0cr</span></div>
-                    <div class="credits-line"><span>Options:</span> <span id="ba6-options">0cr</span></div>
-                    <div class="credits-line credits-total"><span>Total Selected:</span> <span id="ba6-total">0cr</span>
-                    </div>
-                    <div class="credits-line credits-final"><span>Semester Total:</span> <span
-                            id="ba6-final">14cr</span></div>
-                </div>
-
-                <div class="fixed-section">
-                    <h3>Bloc C (Fixed)</h3>
-                    <div class="fixed-course">
-                        <div class="fixed-course-info">
-                            Data-intensive systems<br>
-                            <small>CS-300 • 6cr • EN</small>
-                        </div>
-                        <button class="fixed-course-btn"
-                            onclick="openCourseLink('https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/data-intensive-systems-CS-300')">Link</button>
-                    </div>
-                    <div class="fixed-course" style="margin-top: 8px;">
-                        <div class="fixed-course-info">
-                            Theory of computation<br>
-                            <small>CS-251 • 6cr • EN</small>
-                        </div>
-                        <button class="fixed-course-btn"
-                            onclick="openCourseLink('https://edu.epfl.ch/studyplan/fr/bachelor/informatique/coursebook/theory-of-computation-CS-251')">Link</button>
-                    </div>
-                </div>
-
-                <div class="category-section">
-                    <div class="category-title">Options</div>
-                    <div id="ba6-options-list"></div>
-                </div>
-
-                <div class="category-section">
-                    <div class="category-title">Projects</div>
-                    <div id="ba6-projects-list"></div>
-                </div>
-
-                <div class="category-section">
-                    <div class="category-title">Bio/Physique</div>
-                    <div id="ba6-bio-list"></div>
-                </div>
-
-                <div class="fixed-section">
-                    <h3>SHS (Fixed)</h3>
-                    <div>2 credits</div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -299,29 +259,25 @@
         function generateCourseGroup(groupName, courses, requirements) {
             const groupKey = groupName.toLowerCase().replace('/', '-');
 
-            // 1. Find courses available in BOTH semesters
+            // 1. Partition the incoming courses based on semester availability
             const dualSemesterCourses = courses.filter(c =>
                 (c.semesters.includes('BA5') || c.semesters.includes('BA3')) &&
                 (c.semesters.includes('BA6') || c.semesters.includes('BA4'))
             );
 
-            // 2. Find courses available ONLY in BA5 (Autumn)
-            const ba5OnlyCourses = courses.filter(c =>
+            const autumnOnlyCourses = courses.filter(c =>
                 (c.semesters.includes('BA5') || c.semesters.includes('BA3')) &&
                 !(c.semesters.includes('BA6') || c.semesters.includes('BA4'))
             );
 
-            // 3. Find courses available ONLY in BA6 (Spring)
-            const ba6OnlyCourses = courses.filter(c =>
+            const springOnlyCourses = courses.filter(c =>
                 (c.semesters.includes('BA6') || c.semesters.includes('BA4')) &&
                 !(c.semesters.includes('BA5') || c.semesters.includes('BA3'))
             );
 
             let courseCards = '';
 
-            // --- Render the partitioned groups in the desired order ---
-
-            // Render DUAL-SEMESTER courses first
+            // 2. Build the HTML, rendering each partitioned group in order
             if (dualSemesterCourses.length > 0) {
                 courseCards += `<div class="semester-separator">Available in BA5 & BA6</div>`;
                 dualSemesterCourses.sort((a, b) => a.title.localeCompare(b.title));
@@ -330,48 +286,52 @@
                 });
             }
 
-            // Render BA5-ONLY courses next
-            if (ba5OnlyCourses.length > 0) {
+            if (autumnOnlyCourses.length > 0) {
                 courseCards += `<div class="semester-separator">BA5 (Autumn) Only</div>`;
-                ba5OnlyCourses.sort((a, b) => a.title.localeCompare(b.title));
-                ba5OnlyCourses.forEach(course => {
+                autumnOnlyCourses.sort((a, b) => a.title.localeCompare(b.title));
+                autumnOnlyCourses.forEach(course => {
                     courseCards += generateCourseCard(course);
                 });
             }
 
-            // Render BA6-ONLY courses last
-            if (ba6OnlyCourses.length > 0) {
+            if (springOnlyCourses.length > 0) {
                 courseCards += `<div class="semester-separator">BA6 (Spring) Only</div>`;
-                ba6OnlyCourses.sort((a, b) => a.title.localeCompare(b.title));
-                ba6OnlyCourses.forEach(course => {
+                springOnlyCourses.sort((a, b) => a.title.localeCompare(b.title));
+                springOnlyCourses.forEach(course => {
                     courseCards += generateCourseCard(course);
                 });
             }
 
-            // The rest of the function remains the same, returning the final HTML
+            // 3. Return the complete HTML for the course group box
             return `
-                <div class="course-group ${groupKey}">
-                    <div class="group-header" onclick="toggleGroup('${groupKey}')">
-                        <h3>${groupName} Group (${requirements})</h3>
-                        <div class="group-info">
-                            <span class="group-credits" id="${groupKey}-credits">0 cr</span>
-                            <span class="toggle" id="${groupKey}-toggle">−</span>
-                        </div>
-                    </div>
-                    <div class="course-grid" id="${groupKey}-courses">
-                        ${courseCards}
+            <div class="course-group ${groupKey}">
+                <div class="group-header" onclick="toggleGroup('${groupKey}')">
+                    <h3>${groupName} Group</h3>
+                    <div class="group-info">
+                        <span class="group-credits" id="${groupKey}-credits">0 cr</span>
+                        <span class="toggle" id="${groupKey}-toggle">−</span>
                     </div>
                 </div>
-            `;
+                <div class="course-grid" id="${groupKey}-courses">
+                    ${courseCards}
+                </div>
+            </div>
+        `;
         }
 
         function generateAllCourses() {
             const container = document.getElementById('courses-container');
             let html = '';
 
-            html += generateCourseGroup('Physique/Bio', courseData['physique-bio'], '4+ credits required');
-            html += generateCourseGroup('Projets', courseData['projets'], '8+ credits required');
-            html += generateCourseGroup('Options', courseData['options'], '28+ credits required');
+            // Filter courses from the single source of truth for each group
+            const physiqueBioCourses = courseData.allCourses.filter(c => c.group === 'physique-bio');
+            const projetsCourses = courseData.allCourses.filter(c => c.group === 'projets');
+            const optionsCourses = courseData.allCourses.filter(c => c.group === 'options');
+
+            // Generate each group using the new, smarter generateCourseGroup function
+            html += generateCourseGroup('Physique/Bio', physiqueBioCourses, '4+ credits required');
+            html += generateCourseGroup('Projets', projetsCourses, '8+ credits required');
+            html += generateCourseGroup('Options', optionsCourses, '28+ credits required');
 
             container.innerHTML = html;
         }
@@ -685,27 +645,23 @@
             const totalProjets = ba5_projets + ba6_projets;
             const totalOptions = ba5_options + ba6_options;
 
-            // --- Update Main Summary Table ---
-
-            // Physique/Bio Row
+            // --- Update Main Summary Table (This part is correct and stays) ---
             document.getElementById('summary-ba5-bio').textContent = ba5_bio + ' cr';
             document.getElementById('summary-ba6-bio').textContent = ba6_bio + ' cr';
             document.getElementById('summary-total-bio').textContent = `${totalBio} / 4+ cr`;
             updateRequirementStatus('summary-bio-status', totalBio >= 4);
 
-            // Projets Row
             document.getElementById('summary-ba5-projets').textContent = ba5_projets + ' cr';
             document.getElementById('summary-ba6-projets').textContent = ba6_projets + ' cr';
             document.getElementById('summary-total-projets').textContent = `${totalProjets} / 8+ cr`;
             updateRequirementStatus('summary-projets-status', totalProjets >= 8);
 
-            // Options Row
             document.getElementById('summary-ba5-options').textContent = ba5_options + ' cr';
             document.getElementById('summary-ba6-options').textContent = ba6_options + ' cr';
             document.getElementById('summary-total-options').textContent = `${totalOptions} / 28+ cr`;
             updateRequirementStatus('summary-options-status', totalOptions >= 28);
 
-            // Grand Total Row
+            // --- Update Grand Total Row in Summary Table ---
             const fixedBA5 = 8; // 6 (Bloc C) + 2 (SHS)
             const fixedBA6 = 14; // 12 (Bloc C) + 2 (SHS)
             const ba5GrandTotal = ba5_bio + ba5_projets + ba5_options + fixedBA5;
@@ -716,29 +672,22 @@
             document.getElementById('summary-ba6-total').textContent = ba6GrandTotal + ' cr';
             document.getElementById('summary-grand-total').textContent = `${grandTotal} / 62 cr`;
 
-            // --- Update the per-semester summaries in the side columns ---
-            document.getElementById('ba5-bio').textContent = ba5_bio + 'cr';
-            document.getElementById('ba5-projects').textContent = ba5_projets + 'cr';
-            document.getElementById('ba5-options').textContent = ba5_options + 'cr';
+            // --- Update the per-semester summaries in the side columns (This part is also correct and stays) ---
             document.getElementById('ba5-total').textContent = (ba5_bio + ba5_projets + ba5_options) + 'cr';
             document.getElementById('ba5-final').textContent = ba5GrandTotal + 'cr';
 
-            document.getElementById('ba6-bio').textContent = ba6_bio + 'cr';
-            document.getElementById('ba6-projects').textContent = ba6_projets + 'cr';
-            document.getElementById('ba6-options').textContent = ba6_options + 'cr';
             document.getElementById('ba6-total').textContent = (ba6_bio + ba6_projets + ba6_options) + 'cr';
             document.getElementById('ba6-final').textContent = ba6GrandTotal + 'cr';
 
-            // --- Update group credit counters in the "Available Courses" headers ---
-            if (document.getElementById('physique-bio-credits')) {
-                document.getElementById('physique-bio-credits').textContent = `${totalBio} cr`;
-            }
-            if (document.getElementById('projets-credits')) {
-                document.getElementById('projets-credits').textContent = `${totalProjets} cr`;
-            }
-            if (document.getElementById('options-credits')) {
-                document.getElementById('options-credits').textContent = `${totalOptions} cr`;
-            }
+            // --- Update group credit counters in the "Available Courses" headers (This part is also correct and stays) ---
+            const bioCreditsElement = document.getElementById('physique-bio-credits');
+            if (bioCreditsElement) bioCreditsElement.textContent = `${totalBio} cr`;
+
+            const projetsCreditsElement = document.getElementById('projets-credits');
+            if (projetsCreditsElement) projetsCreditsElement.textContent = `${totalProjets} cr`;
+
+            const optionsCreditsElement = document.getElementById('options-credits');
+            if (optionsCreditsElement) optionsCreditsElement.textContent = `${totalOptions} cr`;
         }
 
         function updateRequirementStatus(elementId, isComplete) {
